@@ -1,52 +1,36 @@
-# Computational Optimization
+# Schedule
 
 ## Lectures
 
-Tuesday and Thursday, 11am-12:30pm, DMP 110
+The numbers before each topic typically correspond to the section numbers in the textbook.
 
-## Teaching staff and office hours
+| Lecture  | Date      | Topic    | Notes | HW |
+| --       | --------- | -------- | ----- | -- |
+|1         | R 04 Jan  | [Introduction](https://piazza.com/class_profile/get_resource/jc3r8udyx4340k/jc3sesq0kqehm) |       |    | 
+|2         | T 09 Jan  | [Fundamentals](https://piazza.com/class_profile/get_resource/jc3r8udyx4340k/jc899eqygiz5m1) | [notebook](https://github.com/MPF-Optimization-Laboratory/cpsc406-T22017/blob/master/notebooks/Jan9.ipynb) Reading: chapter 1 of Beck | |
+|3         | R 11 Jan  |          |      |   |
+|4         | T 16 Jan  |          |      |   |
+|5         | R 18 Jan  |          |      |   |
+|6         | T 23 Jan  |          |      |   |
+|7         | R 25 Jan  |          |      |   |
+|8         | T 30 Jan  |          |      |   |
+|9         | R 01 Feb  |          |      |   |
+|10        | T 06 Feb  |          |      |   |
+|11        | R 08 Feb  |          |      |   |
+|12        | T 13 Feb  |          |      |   |
+|13        | R 15 Feb  |Midterm      |      |   |
+|14        | T 20 Feb  |Spring break |      |   |
+|15        | R 22 Feb  |Spring break |      |   |
+|16        | T 27 Feb  |          |      |   |
+|17        | R 01 Mar  |          |      |   |
+|18        | T 06 Mar  |          |      |   |
+|19        | R 08 Mar  |          |      |   |
+|20        | T 13 Mar  |          |      |   |
+|21        | R 15 Mar  |          |      |   |
+|22        | T 20 Mar  |          |      |   |
+|23        | R 22 Mar  |          |      |   |
+|24        | T 27 Mar  |          |      |   |
+|25        | R 29 Mar  |          |      |   |
+|26        | T 03 Apr  |          |      |   |
+|27        | R 05 Apr  |          |      |   |
 
-- Professor [Michael P. Friedlander](https://www.cs.ubc.ca/~mpf). Office hrs: Thursday, 2-3p in ICCS 221
-- Zhenan Fan. Office hours: Monday, 2:00-3:00pm in ICCS X150 Table 2
-- Huang Fang. Office hrs: Thursday, 3:30-4:30pm in ICCS X150 Table 1
-- Liran Li. Office hours: Friday, 10:00-11:00am in ICCS X150 Table 1
-
-## Textbook
-
-*[Introduction to Nonlinear Optimization: Theory, Algorithms, and Applications with MATLAB](https://doi.org/10.1137/1.9781611973655)*,
- Amir Beck (SIAM, 2014). This book is available online through the UBC Library.
-
-## Course requirements
-
-One of CPSC 302, CPSC 303, or MATH 307.
-
-## Course discussion board
-
-Note! The Slack discussion board has been closed. We'll instead be using Piazza.
-
-All course discussions and announcements will be handled via
-[Piazza](piazza.com/ubc.ca/winterterm22017/cpsc406/home).
-
-- [Join the Piazza discussion group](https://join.slack.com/t/cpsc406-2017/signup)
-- You must signup using an email address with one of the following domains:
-`@ugrad.ubc.ca`, `@alumni.ubc.ca`, `@cs.ubc.ca`.
-
-## Grades
-
-### Distribution
-- assignments (approximately 5-6): 30%
-- midterm exam: 30%
-- final exam: 40%
-
-### Policies
-
-- No makeup exam for the midterm of final. If you missed the
-midterm exam you must document a justification.
-- Midterm exam grade will not be counted if it is lower than
-your final exam grade.
-- To pass the course you must do the assigned
-coursework, write the midterm and final exams, pass the final exam,
-and obtain an overall pass average according to the grading
-scheme.
-- The instructors reserve the right to modify the grading scheme at any
-time.
