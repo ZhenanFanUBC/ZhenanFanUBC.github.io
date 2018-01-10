@@ -1,12 +1,11 @@
 # Schedule
 
-## Lectures
+## Weekly Presentation
 
-The numbers before each topic typically correspond to the section numbers in the textbook.
 
 | Date      | Topic    | Speaker | 
 | --------- | -------- | ----- | 
-| Jan 16  |          |      |   
+| Jan 16  |   Gradient descent to the min cut problem       |   Sikander Randhawa   |   
 | Jan 23  |          |      |   
 | Jan 30  |          |      |   
 | Feb 06  |          |      |   
@@ -16,6 +15,3 @@ The numbers before each topic typically correspond to the section numbers in the
 | Mar 06  |          |      |   
 | Mar 13  |          |      |   
 | Mar 27  |          |      |   
- 
-
-
