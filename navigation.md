@@ -1,8 +1,6 @@
-# CPSC406
+# Optimization Reading Group
 
 [gimmick: math]()
 [gimmick:theme](spacelab)
 
-[Home](index.md)
-[Homework](homework.md)
 [Schedule](schedule.md)
