@@ -3,4 +3,4 @@
 [gimmick: math]()
 [gimmick:theme](spacelab)
 
-[Schedule](schedule.md)
+<!-- [Schedule](schedule.md) -->
