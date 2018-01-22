@@ -5,8 +5,8 @@
 
 | Date      | Topic    | Speaker | 
 | --------- | -------- | ----- | 
-| Jan 16  |   Gradient descent to the min cut problem       |   Sikander Randhawa   |   
-| Jan 23  |          |      |   
+| Jan 16  |   Gradient descent to the min cut problem --- Part 1      |   Sikander Randhawa   |   
+| Jan 23  |   Gradient descent to the min cut problem --- Part 2      |   Sikander Randhawa   |   
 | Jan 30  |          |      |   
 | Feb 06  |          |      |   
 | Feb 13  |          |      |   
