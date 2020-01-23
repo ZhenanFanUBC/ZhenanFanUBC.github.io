@@ -3,6 +3,7 @@ title: Function Perspective of Convex Sets
 date: 2019-12-19 11:33:00 +0800
 categories: [Blogging, Demo]
 tags: [typography]
+toc: false
 seo:
   date_modified: 2020-01-23 15:05:25 -0800
 ---
