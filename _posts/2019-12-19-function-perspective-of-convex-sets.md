@@ -5,7 +5,7 @@ categories: [Blogging, Demo]
 tags: [typography]
 toc: false
 seo:
-  date_modified: 2020-01-23 15:24:53 -0800
+  date_modified: 2020-01-23 15:25:15 -0800
 ---
 # Function Perspective of Convex Sets: Introduction to Gauge and Support Functions
 
