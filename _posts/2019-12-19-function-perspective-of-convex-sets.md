@@ -1,8 +1,7 @@
 ---
 title: Function Perspective of Convex Sets
-date: 2019-12-19 11:33:00 +0800
-categories: [Blogging, Demo]
-tags: [typography]
+date: 2019-12-19 12:00:00 +0800
+categories: [Optimization]
 toc: false
 seo:
   date_modified: 2020-01-23 15:25:15 -0800
