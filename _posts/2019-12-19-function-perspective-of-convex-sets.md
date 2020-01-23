@@ -15,7 +15,7 @@ Understanding the geometric structure of convex sets is always a challenging top
 
 The geometric interpretation for the gauge function is that $\mu = \gamma_C(x)$ is the amount that the set $C$ must be expanded or shrunk to include a query point $x$. The next proposition shows some nice properties of the gauge function.
 
-![upload-image]({{ "/assets/img/post1/gauge.png" | relative_url }})
+![upload-image]({{ "/assets/img/sample/upload-image.png" | relative_url }})
 
 **Proposition** 
 * (Bijection) $C = \{x \in \mathbb{R}^n \mid \gamma_C(x) \leq 1\}$
