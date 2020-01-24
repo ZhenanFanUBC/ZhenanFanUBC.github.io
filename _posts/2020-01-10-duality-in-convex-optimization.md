@@ -2,9 +2,10 @@
 title: Duality in Convex Optimization
 date: 2020-01-10 12:00:00 +0800
 categories: [Optimization]
+tags: [b]
 toc: false
 seo:
-  date_modified: 2020-01-23 20:37:33 -0800
+  date_modified: 2020-01-23 20:40:39 -0800
 ---
 # Duality in Convex Optimization
 

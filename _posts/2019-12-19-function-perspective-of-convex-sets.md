@@ -2,12 +2,13 @@
 title: Function Perspective of Convex Sets
 date: 2019-12-19 12:00:00 +0800
 categories: [Convex Analysis]
+tags: [a]
 toc: false
 seo:
-  date_modified: 2020-01-23 20:37:33 -0800
+  date_modified: 2020-01-23 20:40:39 -0800
 ---
 # Function Perspective of Convex Sets: Introduction to Gauge and Support Functions
-<!-- 
+
 Understanding the geometric structure of convex sets is always a challenging topic in convex analysis. In this post, I will introduce two set-related functions: gauge function and support function, which provide function perspectives of convex sets. Most of the theoretical results here can be found in [^1] and [^2]. Throughout the post, let $C$ be a closed convex set in $\mathbb{R}^n$ containing the origin in its interior.
 
 ## Gauge Function
@@ -86,7 +87,7 @@ Geometrically, the face of $C$ exposed by direction $d$ is all the points in $C$
 
 **Proposition** The subdifferentials of gauge and support functions are given by
 * $\partial\gamma_C = \mathcal{F}_{C^{\circ}}$;
-* $\partial\sigma_C = \mathcal{F}_C$. -->
+* $\partial\sigma_C = \mathcal{F}_C$.
 
 #### References
 [^1]: Rockafellar, R. Tyrrell. Convex analysis. Vol. 28. Princeton university press, 1970.
