@@ -2,7 +2,7 @@
 title: Function Perspective of Convex Sets
 date: 2019-12-19 12:00:00 +0800
 categories: [Convex Analysis]
-tags: [a]
+tags: [Geometry]
 toc: false
 seo:
   date_modified: 2020-01-23 20:41:49 -0800
@@ -24,7 +24,7 @@ The geometric interpretation for the gauge function is that $\mu = \gamma_C(x)$ 
 
 
 **Proposition** 
-* (Bijection) $C = \{x \in \mathbb{R}^n \mid \gamma_C(x) \leq 1\}$
+* (Bijection) $C = \\{x \in \mathbb{R}^n \mid \gamma_C(x) \leq 1\\}$
 * (Scaling) Let $\alpha$ be a positive number, then $\gamma_{\alpha C} = \frac{1}{\alpha}\gamma_{C}$;
 * (Linear transformation) Let $\Phi: \mathbb{R}^m \to \mathbb{R}^n$ be a linear operator, then 
 
@@ -47,7 +47,7 @@ Geometrically, the support function is trying to find the element in $C$ that is
 ![Support]({{ "/assets/img/post1/support.png" | relative_url }})
 
 **Proposition** 
-* (Bijection) $C = \{x \in \mathbb{R}^n \mid \langle x,z \rangle \leq \sigma_C(z), \forall z \in \mathbb{R}^n\}$;
+* (Bijection) $C = \\{x \in \mathbb{R}^n \mid \langle x,z \rangle \leq \sigma_C(z), \forall z \in \mathbb{R}^n\\}$;
 * (Scaling) Let $\alpha$ be a positive number, then $\sigma_{\alpha C} = \alpha\sigma_{C}$;
 * (Linear transformation) Let $\Phi: \mathbb{R}^m \to \mathbb{R}^n$ be a linear operator, then 
 

@@ -2,7 +2,7 @@
 title: Build Neural Networks via Julia
 date: 2020-01-19 12:00:00 +0800
 categories: [Machine Learning]
-tags: [c]
+tags: [Julia]
 toc: false
 seo:
   date_modified: 2020-01-23 20:41:49 -0800

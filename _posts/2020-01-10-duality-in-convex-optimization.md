@@ -2,7 +2,7 @@
 title: Duality in Convex Optimization
 date: 2020-01-10 12:00:00 +0800
 categories: [Optimization]
-tags: [b]
+tags: []
 toc: false
 seo:
   date_modified: 2020-01-23 20:49:55 -0800
@@ -13,12 +13,10 @@ In this post we will discuss a widely used concept in convex optimization: duali
 
 ## Dual Representation of Convex Sets
 
-Before describing the idea of duality, we first consider an example. Let $C$ be a convex set in $\mathbb{R}^n$. From our previous [post](https://zhenanf.blot.im/function-perspective-of-convex-sets-introduction-to-gauge-and-support-functions), we know that we have two ways to represent $C$, namely
+Before describing the idea of duality, we first consider an example. Let $C$ be a convex set in $\mathbb{R}^n$. From our previous [post](https://zhenanfanubc.github.io/posts/function-perspective-of-convex-sets), we know that we have two ways to represent $C$, namely
 
-$$ \begin{equation} A & =& B \\ & = &C \end{equation} $$
-
-* $C = \text{co}\{x \in \mathbb{R}^n: \gamma_C(x) \leq 1\}$; 
-* $C = \bigcap\limits_{z \in \mathbb{S}^{n-1}}\{x: \langle z, x\rangle - \sigma_C(z) \leq 0\}$,
+* $C = \operatorname{co}\\{x \in \mathbb{R}^n: \gamma_C(x) \leq 1\\}$; 
+* $C = \bigcap\limits_{z \in \mathbb{S}^{n-1}}\\{x: \langle z, x\rangle - \sigma_C(z) \leq 0\\}$,
 
 where the first one can be seen as representing $C$ by convex hull of a set of points (standard representation) and the second one can be seen as representing $C$ by the intersection of all halfspaces containing the set (“dual” representation). 
 
@@ -36,15 +34,17 @@ $$\ell_{z, \alpha}(x) = \langle z, x\rangle - \alpha,$$
 
 and we want to find the "best" affine function, namely the minimum choice of $\alpha$ such that $\ell_{z, \alpha}$ is still a lower minirant for $f$. In other words,  
 
+<div>
 $$
 \begin{align}
- \alpha^* &= \argmin\{\alpha \mid f(x) \geq \langle z, x\rangle - \alpha, \forall x \in \mathbb{R}^n\} 
- \\&= \argmin\{\alpha \mid \alpha \geq \langle z, x\rangle - f(x), \forall x \in \mathbb{R}^n\}
- \\&= argmin\{\alpha \mid \alpha \geq \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]\}
+ \alpha^* &= \operatorname{argmin}\{\alpha \mid f(x) \geq \langle z, x\rangle - \alpha, \forall x \in \mathbb{R}^n\} 
+ \\&= \operatorname{argmin}\{\alpha \mid \alpha \geq \langle z, x\rangle - f(x), \forall x \in \mathbb{R}^n\}
+ \\&= \operatorname{argmin}\{\alpha \mid \alpha \geq \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]\}
  \\&= \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]
  \\&=: f^*(z).
 \end{align}
 $$ 
+</div>
 
 The function $f^*$ is called the **conjugate function** of $f$ which can be viewed as the dual representation of $f$.  
 
@@ -94,6 +94,7 @@ $$v(y) = \inf_{x \in \mathbb{R}^n}f(x) + g(Mx + y).$$
 
 The conjugate of the value function is given by
 
+<div>
 $$
 \begin{align}
  v^*(z) &= \sup_{y \in \mathbb{R}^m} \langle y, z\rangle - v(y)
@@ -105,6 +106,7 @@ $$
  \\&= g^*(z) + f^*(-M^*z),
 \end{align}
 $$
+</div>
 
 where $M^*$ is the adjoint operator. Therefore, following the previous discussion, the dual problem is given by 
 
@@ -119,11 +121,13 @@ $$\min_{x} \enspace f(x) \quad\text{subject to}\quad g(x) \leq 0,$$
 
 where $f: \mathbb{R}^n \to \mathbb{R}$ and $g: \mathbb{R}^n \to \mathbb{R}^m$ are convex functions. Now we define a new function by 
 
+<div>
 $$\delta(w) =
   \begin{cases}
         0 & \text{if}\enspace w \leq 0 \\
         \infty & \text{otherwise}
   \end{cases},$$ 
+</div>
 
 then the optimization is equivalent to 
 
@@ -139,6 +143,7 @@ $$v(y) = \inf_{x \in \mathbb{R}^n} \enspace f(x) + \delta(g(x) + y).$$
 
 The conjugate of the value function is given by
 
+<div>
 $$
 \begin{align}
  v^*(z) &= \sup_{y \in \mathbb{R}^m} \langle y, z\rangle - v(y)
@@ -149,6 +154,7 @@ $$
  \\&= \sup_{x \in \mathbb{R}^n} \enspace \bigg(\langle -g(x), z\rangle - f(x)\bigg) + \delta(z).
 \end{align}
 $$
+</div>
 
 Therefore, following the previous discussion, the dual problem is given by 
 
