@@ -12,7 +12,9 @@ Understanding the geometric structure of convex sets is always a challenging top
 
 ## Gauge Function
 **Definition** The gauge function with respect to the set $C$ is defined as 
+
 $$\gamma_C(x) := \inf\{\lambda\geq 0 \mid x \in \lambda C\}.$$ 
+
 For completeness, we set $\gamma_C(x) = \infty$ if there is no $\lambda > 0$ such that $x \in \lambda C$.
 
 The geometric interpretation for the gauge function is that $\mu = \gamma_C(x)$ is the amount that the set $C$ must be expanded or shrunk to include a query point $x$. The next proposition shows some nice properties of the gauge function.
