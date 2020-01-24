@@ -4,7 +4,7 @@ date: 2020-01-10 12:00:00 +0800
 categories: [Optimization]
 toc: false
 seo:
-  date_modified: 2020-01-23 20:15:41 -0800
+  date_modified: 2020-01-23 20:22:44 -0800
 ---
 # Duality in Convex Optimization
 
@@ -13,6 +13,24 @@ In this post we will discuss a widely used concept in convex optimization: duali
 ## Dual Representation of Convex Sets
 
 Before describing the idea of duality, we first consider an example. Let $C$ be a convex set in $\mathbb{R}^n$. From our previous [post](https://zhenanf.blot.im/function-perspective-of-convex-sets-introduction-to-gauge-and-support-functions), we know that we have two ways to represent $C$, namely
+
+$$
+\begin{align*}
+  & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+  = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+  & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+      \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
+      \vdots & \ddots & \vdots \\
+      \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
+    \end{array} \right)
+  \left( \begin{array}{c}
+      y_1 \\
+      \vdots \\
+      y_n
+    \end{array} \right)
+\end{align*}
+$$
+
 * $C = \text{co}\{x \in \mathbb{R}^n: \gamma_C(x) \leq 1\}$; 
 * $C = \bigcap\limits_{z \in \mathbb{S}^{n-1}}\{x: \langle z, x\rangle - \sigma_C(z) \leq 0\}$,
 
