@@ -4,7 +4,7 @@ date: 2020-01-10 12:00:00 +0800
 categories: [Optimization]
 toc: false
 seo:
-  date_modified: 2020-01-23 20:21:28 -0800
+  date_modified: 2020-01-23 20:15:41 -0800
 ---
 # Duality in Convex Optimization
 
@@ -32,24 +32,15 @@ $$\ell_{z, \alpha}(x) = \langle z, x\rangle - \alpha,$$
 
 and we want to find the "best" affine function, namely the minimum choice of $\alpha$ such that $\ell_{z, \alpha}$ is still a lower minirant for $f$. In other words,  
 
-$$ \begin{aligned} alpha^* &= \argmin\{\alpha \mid f(x) \geq \langle z, x\rangle - \alpha, \forall x \in \mathbb{R}^n\} \\&= \argmin\{\alpha \mid \alpha \geq \langle z, x\rangle - f(x), \forall x \in \mathbb{R}^n\} \\&= argmin\{\alpha \mid \alpha \geq \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]\} \\&= \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right] \\&=: f^*(z). \end{aligned} $$ 
-
 $$
-\begin{align*}
-  & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
-  = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
-  & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
-      \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
-      \vdots & \ddots & \vdots \\
-      \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
-    \end{array} \right)
-  \left( \begin{array}{c}
-      y_1 \\
-      \vdots \\
-      y_n
-    \end{array} \right)
-\end{align*}
-$$
+\begin{align}
+ \alpha^* &= \argmin\{\alpha \mid f(x) \geq \langle z, x\rangle - \alpha, \forall x \in \mathbb{R}^n\} 
+ \\&= \argmin\{\alpha \mid \alpha \geq \langle z, x\rangle - f(x), \forall x \in \mathbb{R}^n\}
+ \\&= argmin\{\alpha \mid \alpha \geq \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]\}
+ \\&= \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]
+ \\&=: f^*(z).
+\end{align}
+$$ 
 
 The function $f^*$ is called the **conjugate function** of $f$ which can be viewed as the dual representation of $f$.  
 
