@@ -16,9 +16,9 @@ In this post we will discuss a widely used concept in convex optimization: duali
 Before describing the idea of duality, we first consider an example. Let $C$ be a convex set in $\mathbb{R}^n$. From our previous [post](https://zhenanf.blot.im/function-perspective-of-convex-sets-introduction-to-gauge-and-support-functions), we know that we have two ways to represent $C$, namely
 
 $$ \begin{align} A & = B \\ & = C \end{align} $$
-
+<!-- 
 * $C = \text{co}\{x \in \mathbb{R}^n: \gamma_C(x) \leq 1\}$; 
-* $C = \bigcap\limits_{z \in \mathbb{S}^{n-1}}\{x: \langle z, x\rangle - \sigma_C(z) \leq 0\}$,
+* $C = \bigcap\limits_{z \in \mathbb{S}^{n-1}}\{x: \langle z, x\rangle - \sigma_C(z) \leq 0\}$, -->
 
 where the first one can be seen as representing $C$ by convex hull of a set of points (standard representation) and the second one can be seen as representing $C$ by the intersection of all halfspaces containing the set (“dual” representation). 
 
