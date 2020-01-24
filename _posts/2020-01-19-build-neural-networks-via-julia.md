@@ -22,10 +22,6 @@ using Flux: onehotbatch, onecold, crossentropy
 using Base.Iterators: repeated
 ````
 
-
-
-
-
 ### Step 1: Load data
 The MINST dataset is contained in *Flux.Data.MNIST* and we can load the images and labels by the following code:
 
