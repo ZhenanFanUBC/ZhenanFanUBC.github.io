@@ -34,6 +34,23 @@ and we want to find the "best" affine function, namely the minimum choice of $\a
 
 $$ \begin{aligned} alpha^* &= \argmin\{\alpha \mid f(x) \geq \langle z, x\rangle - \alpha, \forall x \in \mathbb{R}^n\} \\&= \argmin\{\alpha \mid \alpha \geq \langle z, x\rangle - f(x), \forall x \in \mathbb{R}^n\} \\&= argmin\{\alpha \mid \alpha \geq \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]\} \\&= \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right] \\&=: f^*(z). \end{aligned} $$ 
 
+$$
+\begin{align*}
+  & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
+  = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
+  & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
+      \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
+      \vdots & \ddots & \vdots \\
+      \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
+    \end{array} \right)
+  \left( \begin{array}{c}
+      y_1 \\
+      \vdots \\
+      y_n
+    \end{array} \right)
+\end{align*}
+$$
+
 The function $f^*$ is called the **conjugate function** of $f$ which can be viewed as the dual representation of $f$.  
 
 ![Function]({{ "/assets/img/post2/dual_function.png" | relative_url }})
