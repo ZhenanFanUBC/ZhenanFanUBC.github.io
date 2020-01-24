@@ -49,9 +49,9 @@ baseurl: ''
 # Change to your timezone › http://www.timezoneconverter.com/cgi-bin/findzone/findzone
 timezone: America/Vancouver
 
-google_analytics:
+google_analytics: 
   # Fill with your Google Analytics ID
-  id: ''
+  id: 'UA-154621803-2'
   # The Google Analytics pageviews switch.
   # DO NOT enable it unless you know how to deploy the Google Analytics superProxy.
   pv: false
