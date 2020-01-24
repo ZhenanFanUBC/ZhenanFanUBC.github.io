@@ -4,7 +4,7 @@ date: 2020-01-10 12:00:00 +0800
 categories: [Optimization]
 toc: false
 seo:
-  date_modified: 2020-01-23 20:02:40 -0800
+  date_modified: 2020-01-23 20:11:18 -0800
 ---
 # Duality in Convex Optimization
 
