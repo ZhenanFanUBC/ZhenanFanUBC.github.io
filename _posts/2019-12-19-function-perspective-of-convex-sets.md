@@ -4,11 +4,11 @@ date: 2019-12-19 12:00:00 +0800
 categories: [Optimization]
 toc: false
 seo:
-  date_modified: 2020-01-23 15:41:19 -0800
+  date_modified: 2020-01-23 15:41:40 -0800
 ---
 # Function Perspective of Convex Sets: Introduction to Gauge and Support Functions
 
-Understanding the geometric structure of convex sets is always a challenging topic in convex analysis. In this post, I will introduce two set-related functions: gauge function and support function, which provide function perspectives of convex sets. Most of the theoretical results here can be found in [1] and [2]. Throughout the post, let $C$ be a closed convex set in $\mathbb{R}^n$ containing the origin in its interior.
+Understanding the geometric structure of convex sets is always a challenging topic in convex analysis. In this post, I will introduce two set-related functions: gauge function and support function, which provide function perspectives of convex sets. Most of the theoretical results here can be found in [^1] and [^2]. Throughout the post, let $C$ be a closed convex set in $\mathbb{R}^n$ containing the origin in its interior.
 
 ## Gauge Function
 **Definition** The gauge function with respect to the set $C$ is defined as $$\gamma_C(x) := \inf\{\lambda\geq 0 \mid x \in \lambda C\}.$$ For completeness, we set $\gamma_C(x) = \infty$ if there is no $\lambda > 0$ such that $x \in \lambda C$.
@@ -22,7 +22,7 @@ The geometric interpretation for the gauge function is that $\mu = \gamma_C(x)$ 
 * (Bijection) $C = \{x \in \mathbb{R}^n \mid \gamma_C(x) \leq 1\}$
 * (Scaling) Let $\alpha$ be a positive number, then $\gamma_{\alpha C} = \frac{1}{\alpha}\gamma_{C}$;
 * (Linear transformation) Let $\Phi: \mathbb{R}^m \to \mathbb{R}^n$ be a linear operator, then $$\gamma_{C}(\Phi \cdot) = \gamma_{\Phi^{-1}C}(\cdot),$$ where $\Phi^{-1}C$ is the pre-image of $C$;
-* (Sum of sets) Let $C_1, \dots, C_k$ be closed convex sets in $\mathbb{R}^n$ containing the origin in their interiors, then $$\gamma_{C_1 + \dots + C_k}(x) = \gamma_{C_1}\diamond\dots\diamond\gamma_{C_k}(x):=\inf\{\max\{\gamma_{C_1}(x_1), \dots, \gamma_{C_k}(x_k)\} \mid x_1 + \dots + x_k = x\},$$ where $\diamond$ is called polar convolution. A more detailed discussion over polar convolution can be found in [3].
+* (Sum of sets) Let $C_1, \dots, C_k$ be closed convex sets in $\mathbb{R}^n$ containing the origin in their interiors, then $$\gamma_{C_1 + \dots + C_k}(x) = \gamma_{C_1}\diamond\dots\diamond\gamma_{C_k}(x):=\inf\{\max\{\gamma_{C_1}(x_1), \dots, \gamma_{C_k}(x_k)\} \mid x_1 + \dots + x_k = x\},$$ where $\diamond$ is called polar convolution. A more detailed discussion over polar convolution can be found in [^3].
 
 ## Support Function
 **Definition** The support function with respect to the set $C$ is defined as $$\sigma_C(z) := \sup\{\langle c,z \rangle \mid c \in C\}.$$
@@ -65,9 +65,9 @@ Geometrically, the face of $C$ exposed by direction $d$ is all the points in $C$
 * $\partial\sigma_C = \mathcal{F}_C$.
 
 #### References
-[1] Rockafellar, R. Tyrrell. Convex analysis. Vol. 28. Princeton university press, 1970.
-[2] Hiriart-Urruty, Jean-Baptiste, and Claude Lemaréchal. Fundamentals of convex analysis. Springer Science and Business Media, 2012.
-[3] Friedlander, Michael P., Ives Macêdo, and Ting Kei Pong. Polar Convolution. SIAM Journal on Optimization 29.2, 2019.
+[^1]: Rockafellar, R. Tyrrell. Convex analysis. Vol. 28. Princeton university press, 1970.
+[^2]: Hiriart-Urruty, Jean-Baptiste, and Claude Lemaréchal. Fundamentals of convex analysis. Springer Science and Business Media, 2012.
+[^3]: Friedlander, Michael P., Ives Macêdo, and Ting Kei Pong. Polar Convolution. SIAM Journal on Optimization 29.2, 2019.
 
 
 

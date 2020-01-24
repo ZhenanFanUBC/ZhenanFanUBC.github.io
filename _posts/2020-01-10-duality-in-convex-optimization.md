@@ -4,11 +4,11 @@ date: 2020-01-10 12:00:00 +0800
 categories: [Optimization]
 toc: false
 seo:
-  date_modified: 2020-01-23 15:41:19 -0800
+  date_modified: 2020-01-23 15:41:40 -0800
 ---
 # Duality in Convex Optimization
 
-In this post we will discuss a widely used concept in convex optimization: duality. The concept of convex duality not only has mathematical elegance but also provide alternative problems which are possibly easier to solve. Most of the discussion here can be found in [1] and [2].
+In this post we will discuss a widely used concept in convex optimization: duality. The concept of convex duality not only has mathematical elegance but also provide alternative problems which are possibly easier to solve. Most of the discussion here can be found in [^1] and [^2].
 
 ## Dual Representation of Convex Sets
 
@@ -86,5 +86,5 @@ $$
 $$ which is also called **Lagrange dual**.
 
 #### References
-[1] Rockafellar, R. Tyrrell. Convex analysis. Vol. 28. Princeton university press, 1970.
-[2] Ekeland, Ivar, and Roger Temam. Convex analysis and variational problems. Vol. 28. Siam, 1999.
+[^1]: Rockafellar, R. Tyrrell. Convex analysis. Vol. 28. Princeton university press, 1970.
+[^2]: Ekeland, Ivar, and Roger Temam. Convex analysis and variational problems. Vol. 28. Siam, 1999.
