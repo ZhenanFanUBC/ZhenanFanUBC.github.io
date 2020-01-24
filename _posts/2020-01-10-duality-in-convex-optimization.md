@@ -5,7 +5,7 @@ categories: [Optimization]
 tags: []
 toc: false
 seo:
-  date_modified: 2020-01-23 20:49:55 -0800
+  date_modified: 2020-01-24 13:46:22 -0800
 ---
 # Duality in Convex Optimization
 

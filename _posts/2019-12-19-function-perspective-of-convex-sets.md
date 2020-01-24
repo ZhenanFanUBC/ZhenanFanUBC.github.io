@@ -5,7 +5,7 @@ categories: [Convex Analysis]
 tags: [Geometry]
 toc: false
 seo:
-  date_modified: 2020-01-23 20:41:49 -0800
+  date_modified: 2020-01-24 13:46:22 -0800
 ---
 # Function Perspective of Convex Sets: Introduction to Gauge and Support Functions
 
