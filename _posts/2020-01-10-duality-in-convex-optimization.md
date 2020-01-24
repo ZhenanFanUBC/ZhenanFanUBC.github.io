@@ -15,6 +15,7 @@ In this post we will discuss a widely used concept in convex optimization: duali
 Before describing the idea of duality, we first consider an example. Let $C$ be a convex set in $\mathbb{R}^n$. From our previous [post](https://zhenanf.blot.im/function-perspective-of-convex-sets-introduction-to-gauge-and-support-functions), we know that we have two ways to represent $C$, namely
 
 $$
+C = \text{co}\{x \in \mathbb{R}^n: \gamma_C(x) \leq 1\}
 \begin{align*}
   & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
   = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
