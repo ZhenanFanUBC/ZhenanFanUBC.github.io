@@ -33,14 +33,16 @@ $$\ell_{z, \alpha}(x) = \langle z, x\rangle - \alpha,$$
 and we want to find the "best" affine function, namely the minimum choice of $\alpha$ such that $\ell_{z, \alpha}$ is still a lower minirant for $f$. In other words,  
 
 $$
-\begin{aligned}
+\begin{align}
  \alpha^* &= \argmin\{\alpha \mid f(x) \geq \langle z, x\rangle - \alpha, \forall x \in \mathbb{R}^n\} 
  \\&= \argmin\{\alpha \mid \alpha \geq \langle z, x\rangle - f(x), \forall x \in \mathbb{R}^n\}
  \\&= argmin\{\alpha \mid \alpha \geq \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]\}
  \\&= \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]
  \\&=: f^*(z).
-\end{aligned}
-$$ The function $f^*$ is called the **conjugate function** of $f$ which can be viewed as the dual representation of $f$.  
+\end{align}
+$$ 
+
+The function $f^*$ is called the **conjugate function** of $f$ which can be viewed as the dual representation of $f$.  
 
 ![Function]({{ "/assets/img/post2/dual_function.png" | relative_url }})
 
@@ -89,7 +91,7 @@ $$v(y) = \inf_{x \in \mathbb{R}^n}f(x) + g(Mx + y).$$
 The conjugate of the value function is given by
 
 $$
-\begin{aligned}
+\begin{align}
  v^*(z) &= \sup_{y \in \mathbb{R}^m} \langle y, z\rangle - v(y)
  \\&= \sup_{y \in \mathbb{R}^m} \bigg[ \langle y, z\rangle - \inf_{x \in \mathbb{R}^n}\left(f(x) + g(Mx + y)\right) \bigg]
  \\&= \sup_{y \in \mathbb{R}^m} \sup_{x \in \mathbb{R}^n} \enspace \langle y, z\rangle - f(x) - g(Mx + y)
@@ -97,7 +99,7 @@ $$
  \\&= \sup_{x \in \mathbb{R}^n} \enspace g^*(z) + \langle x, -M^*z\rangle - f(x)
  \\&= g^*(z) + \sup_{x \in \mathbb{R}^n} \langle x, -M^*z\rangle - f(x)
  \\&= g^*(z) + f^*(-M^*z),
-\end{aligned}
+\end{align}
 $$
 
 where $M^*$ is the adjoint operator. Therefore, following the previous discussion, the dual problem is given by 
@@ -134,14 +136,14 @@ $$v(y) = \inf_{x \in \mathbb{R}^n} \enspace f(x) + \delta(g(x) + y).$$
 The conjugate of the value function is given by
 
 $$
-\begin{aligned}
+\begin{align}
  v^*(z) &= \sup_{y \in \mathbb{R}^m} \langle y, z\rangle - v(y)
  \\&= \sup_{y \in \mathbb{R}^m} \sup_{x \in \mathbb{R}^n} \enspace \langle y, z\rangle - f(x) - \delta(g(x) + y)
  \\&= \sup_{x \in \mathbb{R}^n, y \in \mathbb{R}^m: g(x) + y \leq 0} \quad \langle y, z\rangle - f(x)
  \\&= \sup_{x \in \mathbb{R}^n, w \in \mathbb{R}^m: w \geq 0} \langle -g(x) + w, z\rangle - f(x)
  \\&= \sup_{x \in \mathbb{R}^n} \enspace \bigg(\langle -g(x), z\rangle - f(x)\bigg) + \sup_{w \in \mathbb{R}^m: w \geq 0} \langle w, z\rangle
  \\&= \sup_{x \in \mathbb{R}^n} \enspace \bigg(\langle -g(x), z\rangle - f(x)\bigg) + \delta(z).
-\end{aligned}
+\end{align}
 $$
 
 Therefore, following the previous discussion, the dual problem is given by 
