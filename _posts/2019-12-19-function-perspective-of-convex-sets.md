@@ -4,7 +4,7 @@ date: 2019-12-19 12:00:00 +0800
 categories: [Convex Analysis]
 toc: false
 seo:
-  date_modified: 2020-01-23 20:28:06 -0800
+  date_modified: 2020-01-23 20:28:42 -0800
 ---
 # Function Perspective of Convex Sets: Introduction to Gauge and Support Functions
 
