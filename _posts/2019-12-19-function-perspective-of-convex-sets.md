@@ -1,7 +1,7 @@
 ---
 title: Function Perspective of Convex Sets
 date: 2019-12-19 12:00:00 +0800
-categories: [Optimization]
+categories: [Convex Analysis]
 toc: false
 seo:
   date_modified: 2020-01-23 16:03:43 -0800

@@ -8,4 +8,6 @@ title: About
 # MIT License
 ---
 
-> **Note**: Add Markdown syntax content to file `tabs/about.md` and it will show up on this page.
+I am Zhenan Fan, a PhD student in the Computer Science department of The University of British Columbia, in Vancouver, Canada. I am interested in developing algorithms for optimization problems arising in machine learning, compressed sensing and operation research. 
+
+This blog contains some notes and discoveries in optimization related research areas. You can know more of me from my personal [webpage](https://www.cs.ubc.ca/~zhenanf/).
