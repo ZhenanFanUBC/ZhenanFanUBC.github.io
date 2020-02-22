@@ -5,7 +5,7 @@ categories: [Machine Learning]
 tags: [Julia, MNIST, Neural network]
 toc: false
 seo:
-  date_modified: 2020-01-24 13:46:22 -0800
+  date_modified: 2020-02-21 20:08:52 -0800
 ---
 # Build Neural Networks via Julia
 In this post I want to show how to build a neural network in Julia. Julia is a great programming language for machine learning, which makes buliding neural networks much easier. 
