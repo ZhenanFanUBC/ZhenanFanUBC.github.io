@@ -81,7 +81,7 @@ Is there is a way to link these two convergence? The answer is yes. We just need
 
 **Theorem** Suppose there is a bounded set $X \subset \mathbb{R}^n$ such that $C_i, C \subseteq X$, then 
 
-$$\lim_{i \to infty} C_i = C \enspace \Leftrightarrow \enspace \mathrm{dist}(C_i, C) \to 0.$$
+$$\lim_{i \to \infty} C_i = C \enspace \Leftrightarrow \enspace \mathrm{dist}(C_i, C) \to 0.$$
 
 
 #### References
