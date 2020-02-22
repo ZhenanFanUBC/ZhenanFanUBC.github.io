@@ -5,7 +5,7 @@ categories: [Convex Analysis]
 tags: [Hausdorff distance, Set convergence]
 toc: false
 seo:
-  date_modified: 2020-02-21 20:08:52 -0800
+  date_modified: 2020-02-21 20:11:26 -0800
 ---
 # Distance Between Sets: Introduction to Hausdorff-Distance
 In this post, I want to discuss one of the most famous distances between subsets of $\mathbb{R}^n$ -- the Hausdorff distance. Based on that, I will also introduce some convergence analysis regarding set-valued functions. Most of the theoretical results here can be found in [^1] and [^2].
