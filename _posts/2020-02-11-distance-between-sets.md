@@ -1,8 +1,8 @@
 ---
 title: Distance Between Sets
 date: 2020-02-11 12:00:00 +0800
-categories: [Optimization]
-tags: []
+categories: [Convex Analysis]
+tags: [Hausdorff distance, Set convergence]
 toc: false
 seo:
   date_modified: 2020-02-11 13:46:22 -0800
@@ -25,7 +25,7 @@ $$\mathrm{dist}(C_1 \to C_2) = \sup_{x \in C_1} \mathrm{dist}(x \to C_2).$$
 
 Geometrically, if the distance from $C_1$ to $C_2$ is small, then this means $C_1$ is contained in some neighbourhood of $C_2$. More specifically, we have the following lemma.
 
-**Lemma:** $\mathrm{dist}(C_1 \to C_2) \leq \epsilon$ if and only if $C_1 \subseteq C_2 + \mathbb{B}_{\epsilon}$, where $\mathbb{B}_{\epsilon}$ is the $\|\cdot\|$-ball centered at $0$ with radius $\epsilon$.
+**Lemma:** $\mathrm{dist}(C_1 \to C_2) \leq \epsilon$ if and only if $C_1 \subseteq C_2 + \mathbb{B}(0, \epsilon)$, where $\mathbb{B}(0, \epsilon)$ is the $\|\cdot\|$-ball centered at $0$ with radius $\epsilon$.
 
 ## Distance between sets
 The Huasdorff-distance between $C_1$ and $C_2$ is then the symmetrization of the above ideas. Formally, the **Huasdorff-distance between $C_1$ and $C_2$** is defined as
@@ -40,11 +40,13 @@ The next picture is obtained from Wikipedia.
 
 $$\mathrm{dist}(C_1, C_2) = \sup_{\|d\| = 1} |\sigma_{C_1}(d) - \sigma_{C_2}(d)|.$$
 
-**Proof:** By the previous lemma, we know that $\mathrm{dist}(C_1, C_2) \leq \epsilon$ if and only if $C_1 \subseteq C_2 + \mathbb{B}_{\epsilon}$ and $C_2 \subseteq C_2 + \mathbb{B}_{\epsilon}$ and this means that 
+**Proof:** By the previous lemma, we know that $\mathrm{dist}(C_1, C_2) \leq \epsilon$ if and only if $C_1 \subseteq C_2 + \mathbb{B}(0, \epsilon)$ and $C_2 \subseteq C_2 + \mathbb{B}(0, \epsilon)$ and this means that 
 
 $$\forall \|d\| = 1,\enspace\sigma_{C_1}(d) \leq \sigma_{C_2}(d) + \epsilon \enspace \text{and} \enspace \sigma_{C_1}(d) \leq \sigma_{C_2}(d) + \epsilon.$$
 
-Therefore, we can conclude that $\mathrm{dist}(C_1, C_2) = \sup_{\|d\| = 1} |\sigma_{C_1}(d) - \sigma_{C_2}(d)|$.
+Therefore, we can conclude that 
+
+$$\mathrm{dist}(C_1, C_2) = \sup_{\|d\| = 1} |\sigma_{C_1}(d) - \sigma_{C_2}(d)|.$$
 
 ## Set convergence
 Before introducing the concept of set convergence, we need the following definitions regarding the inner and outer limits of sets. 
@@ -57,22 +59,29 @@ The inner limit or the limes interior of $C_i$'s is the set of limits of all con
 
 $$\lim\mathrm{int}_{i \to \infty} C_i = \{c \mid \exists (c_i)_{i \in \mathbb{N}}, \enspace \text{such that}\enspace c_i \in C_i, c_i \to c\}.$$
 
-It is clear that we always have $\lim\mathrm{int}_{i \to \infty} \subseteq \lim\mathrm{ext}_{i \to \infty} C_i$. When these two sets are equal, the common set is defined to be the limit of $C_i$'s. Specifically, 
+It is clear that we always have 
+
+$$\lim\mathrm{int}_{i \to \infty} \subseteq \lim\mathrm{ext}_{i \to \infty} C_i.$$ 
+
+![Function]({{ "/assets/img/post4/convergence.png" | relative_url }})
+
+When these two sets are equal, the common set is defined to be the limit of $C_i$'s. Specifically, 
 
 $$C = \lim_{i \to \infty} C_i \enspace\text{iff}\enspace C = \lim\mathrm{ext}_{i \to \infty} C_i = \lim\mathrm{int}_{i \to \infty} C_i.$$
 
 **Relation with Hausdorff-distance** In general, convergence with respect to Hausdorff-distance is not equivalent to set convergence as just defined. The next example will illustrate that. 
 
-**Example** Let $C_i = [0, i]$ and $C = \mathbb{R}_{\geq 0}$, then it is obviously that $\lim_{i \to \infty} C_i = C$. Hoever, the Hausdorff-distance between $C_i$ and $C$ is always $\infty$. 
+**Example** Let $C_i = [0, i]$ and $C = \mathbb{R}_{\geq 0}$, then it is obviously that 
+
+$$\lim_{i \to \infty} C_i = C.$$ 
+
+Hoever, the Hausdorff-distance between $C_i$ and $C$ is always $\infty$. 
 
 Is there is a way to link these two convergence? The answer is yes. We just need an additional boundedness restriction. 
 
 **Theorem** Suppose there is a bounded set $X \subset \mathbb{R}^n$ such that $C_i, C \subseteq X$, then 
 
 $$\lim_{i \to infty} C_i = C \enspace \Leftrightarrow \enspace \mathrm{dist}(C_i, C) \to 0.$$
-
-
-
 
 
 #### References

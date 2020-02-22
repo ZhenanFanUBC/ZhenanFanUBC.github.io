@@ -2,7 +2,7 @@
 title: Function Perspective of Convex Sets
 date: 2019-12-19 12:00:00 +0800
 categories: [Convex Analysis]
-tags: [Geometry]
+tags: [Geometry, Gauge, Support function]
 toc: false
 seo:
   date_modified: 2020-01-24 13:46:22 -0800

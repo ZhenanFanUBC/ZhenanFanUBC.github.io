@@ -2,7 +2,7 @@
 title: Duality in Convex Optimization
 date: 2020-01-10 12:00:00 +0800
 categories: [Optimization]
-tags: []
+tags: [Duality]
 toc: false
 seo:
   date_modified: 2020-01-24 13:46:22 -0800
@@ -63,7 +63,7 @@ Formally, we introduce a convex function $F: \mathbb{R}^n \times \mathbb{R}^m \t
 
 $$F(x, 0) = f(x).$$ 
 
-We call this function **perturbion function**. Now if we define 
+We call this function **perturbation function**. Now if we define 
 
 $$v(y) = \inf_{x \in \mathbb{R}^n} F(x, y),$$ 
 
