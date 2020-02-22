@@ -33,7 +33,8 @@ The Huasdorff-distance between $C_1$ and $C_2$ is then the symmetrization of the
 $$\mathrm{dist}(C_1, C_2) = \max\{\mathrm{dist}(C_1 \to C_2), \mathrm{dist}(C_2 \to C_1)\}.$$
 
 The next picture is obtained from Wikipedia. 
-![Function]({{ "/assets/img/post4/Hausdorff.svg" | relative_url }})
+
+![Function]({{ "/assets/img/post4/Hausdorff.png" | relative_url }})
 
 **Proposition:** 
 
