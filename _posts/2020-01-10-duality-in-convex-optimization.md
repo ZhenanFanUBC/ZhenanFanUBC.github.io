@@ -75,7 +75,7 @@ and the dual problem is simply to evaluate $v^{**}(0)$. In other words, the dual
 
 $$v^{**}(0) = \max_{z \in \mathbb{R}^m}\enspace -v^*(z).$$
 
-Finally, I am going to explain two most common duals: Fenchel dual and Lagrange dual using the convex duality framework.
+Finally, I am going to explain three most common duals: Fenchel dual, Lagrange dual and Gauge dual using the convex duality framework.
 
 #### Fenchel Dual
 Consider the optimization problem 
@@ -164,6 +164,49 @@ $$
 
 which is also called **Lagrange dual**.
 
+#### Gauge Dual
+Consider the optimization problem
+
+$$\min_{x} \enspace \gamma_C(x) \quad\text{subject to}\quad Mx = b,$$
+
+where $C$ is a convex set in $\mathbb{R}^n$ and $\gamma_C$ is the corresponding gauge function as introduced in the previous [post](https://zhenanfanubc.github.io/posts/function-perspective-of-convex-sets). 
+
+Let $p^*$ denote the optimal value for this optimization problem, then equivalently, we can express the problem as:
+
+<div>
+$$
+\begin{align}
+ p^* &= \inf_{x, \mu}\enspace\{\mu \mid Mx = b, \gamma_C(x) \leq \mu\}
+ \\&= \inf_{x, \lambda}\enspace\{\frac{1}{\lambda} \mid Mx = \lambda b, x \in C\}.
+\end{align}
+$$
+</div>
+
+Based on that, we define the perturbation function:
+
+$$F(x, \lambda, y) = -\lambda + \delta_{\{0\}}(\lambda b - Ax + y) + \delta_C(x).$$
+
+Let $v(y)$ denote the corresponding value function, namely 
+
+$$v(y) = \inf_{x, \lambda} F(x, \lambda, y).$$
+
+It is then obvious that $p^* = -\frac{1}{v(0)}$. 
+
+Then through direct computation, you should be able to obtain
+
+$$v^*(z) = \sigma_C(M^*z) + \delta_{\langle b, \cdot\rangle \geq 1}(z).$$
+
+The detailed procedure can be found in [^3]. Therefore, following the previous discussion, the dual problem is given by 
+
+$$
+\min_{z} \enspace \sigma_C(M^*z) \quad\text{subject to}\quad \langle b, z\rangle \geq 1,
+$$
+
+which is also called **Gauge dual**. It is worthy noting that in Gauge dual, when strong duality holds, we have $p^* = \frac{1}{d^*}$, which is different from Fenchel dual and Lagrange dual. 
+
+
+
 #### References
 [^1]: Rockafellar, R. Tyrrell. Convex analysis. Vol. 28. Princeton university press, 1970.
 [^2]: Ekeland, Ivar, and Roger Temam. Convex analysis and variational problems. Vol. 28. Siam, 1999.
+[^3]: Aravkin, A. Y., Burke, J. V., Drusvyatskiy, D., Friedlander, M. P., & MacPhee, K. J. (2018). Foundations of gauge and perspective duality. SIAM Journal on Optimization, 28(3), 2406-2434.
