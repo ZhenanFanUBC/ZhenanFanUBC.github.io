@@ -5,7 +5,7 @@ categories: [Probability]
 tags: [Concentration inequality, Statistical learning, Julia]
 toc: false
 seo:
-  date_modified: 2020-02-21 20:11:26 -0800
+  date_modified: 2020-02-28 11:35:11 -0800
 ---
 # Concentration Inequalities
 Concentration inequalities are used to bound the deviation of a random variable $X$ from its expectation $\mathbb{E}(X)$. They usually take the form of 
