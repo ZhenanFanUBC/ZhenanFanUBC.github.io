@@ -12,7 +12,7 @@ Concentration inequalities are used to bound the deviation of a random variable 
 
 $$\mathbb{P}(|X - \mathbb{E}(X)| \geq t) \leq g(t),$$
 
-where $g(t)$ is usually very small like $e^{-t^2}$. These concentration inequalities are very important in statistical learning theory as they describe how a random variable is "concentrated" around its expectation. In this post, I will give an overview of several commonly used concentration inequalities as well as some numerical experiments written in Julia. Most of the theoretical results here can be found in [^1]. 
+where $g(t)$ is usually very small like $e^{-t^2}$. These concentration inequalities are very important in statistical learning theory as they describe how a random variable is "concentrated" around its expectation. In this post, I will give an overview of several commonly used concentration inequalities as well as some numerical experiments written in Julia. Most of the theoretical results here can be found in [^1] and [^2]. 
 
 We start with the simplest concentration inequality. 
 ## Chebyshev Inequality
@@ -214,7 +214,101 @@ plot(ts, [bounded, emperical],
 ````
 ![Output4]({{ "/assets/img/post5/Bounded.png" | relative_url }})
 
+We have shown the concentration inequality for "bounded" functions. Can we show the similar probabilistic bound for a more general class of functions? The answer is Yes, when $X_i$'s are standard gaussian. 
+
+## Lipschitz functions of Gaussian variables
+**Definition** A function $f:\mathbb{R}^n \to \mathbb{R}$ is $L$-Lipschitz if 
+
+$$|f(x) - f(y)| \leq L\|x - y\|, \quad \forall x, y \in \mathbb{R}^n.$$
+
+The following result guarantees the concentration property of Lipschitz function of independent standard Gaussian random variables. 
+
+**Theorem** Let $X_1, \dots, X_n$ be i.i.d. standard Gaussian variables, and let $f:\mathbb{R}^n \to \mathbb{R}$ be $L$-Lipschitz. Then for all $t \geq 0$, 
+
+$$\mathbb{P}\left(|f(X) - \mathbb{E}(f(X))| \geq t\right) \leq 2\exp\left(-\frac{t^2}{2L^2}\right),$$
+
+where $X = (X_1, \dots, X_n)$. 
+
+It is worth noting that this concentration inequality holds regardless of the dimension. 
+
+**Experiment 4** Let $X_1, \dots, X_n$ be standard Gaussian. Let $f = \|\cdot\|$, then $f$ is obviously $1$-Lipschitz and by elementary integration, we know that $\mathbb{E}(\|X\|) \approx \sqrt{n}$. In this experiment, we choose $n = 10, 100, 1000$. 
+
+````julia
+# number of variables
+n1 = 10; n2 = 100; n3 = 1000
+# expectations
+E1 = sqrt(n1); E2 = sqrt(n2); E3 = sqrt(n3)
+# number of trials
+N = 10000
+# distribution
+d = Normal(0, 1)
+# for-loop
+F1 = zeros(N); F2 = zeros(N); F3 = zeros(N)
+for trial in 1:N
+    X1 = rand(d, n1); X2 = rand(d, n2); X3 = rand(d, n3)
+    F1[trial] = abs(norm(X1) - E1)
+    F2[trial] = abs(norm(X2) - E2)
+    F3[trial] = abs(norm(X3) - E3)
+end
+# probabilities
+ts = 0.1:0.01:5
+T = length(ts)
+emperical1 = zeros(T); emperical2 = zeros(T); emperical3 = zeros(T)
+for i = 1:length(ts)
+    emperical1[i] = count(x->x>=ts[i], F1)/N
+    emperical2[i] = count(x->x>=ts[i], F2)/N
+    emperical3[i] = count(x->x>=ts[i], F3)/N
+end
+bounded = 2*exp.(-ts.^2/2)
+plot(ts, [bounded, emperical1, emperical2, emperical3], 
+    labels=["Bounded" "Emperical_n=10" "Emperical_n=100" "Emperical_n=100"], 
+    ylims = (0,1),
+    xlabel = "t", 
+    ylabel = "P(|f(X) - E(f(X))| > t)")
+````
+![Output5]({{ "/assets/img/post5/Gaussian.png" | relative_url }})
+
+Finally, all the concentration inequalities we have seen depend on the independence between $X_i$'s. Can we relax this condition? The answer is Yes, when they are "enough inpendent". Here we show a particular example of concentration on the sphere. A more general discussion over this topic can be found in the Chapter 5, Concentration without independence, of [^1].
+
+## Concentration on the unit sphere
+**Theorem** Let $X$ be a uniform random variable on the unit sphere $\mathbb{S}^{n-1}$ and let $f:\mathbb{S}^{n-1} \to \mathbb{R}$ be $L$-Lipschitz. Then for all $t\geq0$, 
+
+$$\mathbb{P}\left(|f(X) - \mathbb{E}(f(X))|\right) \leq 2\exp(-\frac{(n-1)t^2}{2L^2}).$$
+
+**Experiment 4** Let $X$ be standard Gaussian in $\mathbb{R}^n$ and let $Y = \frac{X}{\|X\|}$. Then it is well-known that $Y$ is uniformly distributed on $\mathbb{S}^{n-1}$. We define $f(y) = \langle a, y\rangle$, where $a \in \mathbb{S}^{n-1}$ is some fixed vector. Then by simple computation, we can get that $f$ is 1-Lipschitz and $\mathbb{E}(f(Y)) = 0$. In the experiment, we choose $n = 10$. 
+
+````julia
+n = 10
+# number of trials
+N = 10000
+# distribution
+d = Normal(0, 1)
+# function
+a = randn(n); a = a/norm(a)
+f = y->dot(a, y)
+# for-loop
+F = zeros(N)
+for trial in 1:N
+    X = rand(d, n); Y = X/norm(X)
+    F[trial] = abs(f(Y))
+end
+# probabilities
+ts = 0.1:0.01:2
+T = length(ts)
+emperical = zeros(T)
+for i = 1:length(ts)
+    emperical[i] = count(x->x>=ts[i], F)/N
+end
+bounded = 2*exp.(-(n-1)*ts.^2/2)
+plot(ts, [bounded, emperical], 
+    labels=["Bounded" "Emperical"], 
+    ylims = (0,1),
+    xlabel = "t", 
+    ylabel = "P(|f(X) - E(f(X))| > t)")
+````
+![Output5]({{ "/assets/img/post5/Sphere.png" | relative_url }})
 
 
 ### Reference
 [^1]: Vershynin, Roman. High-dimensional probability: An introduction with applications in data science. Vol. 47. Cambridge university press, 2018.
+[^2]: Wainwright, Martin J. High-dimensional statistics: A non-asymptotic viewpoint. Vol. 48. Cambridge University Press, 2019.
