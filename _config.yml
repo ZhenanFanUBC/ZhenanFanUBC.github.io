@@ -42,7 +42,7 @@ google_analytics: UA-154621803-2 # out your google-analytics code
 # -----------------------------------------------------------------------------
 # Blog
 # -----------------------------------------------------------------------------
-blog_name: Zhenan Fan's blog
+blog_name: Alchemy
 blog_description: some notes on optimization, machine learning, convex analysis and probability
 
 # Pagination
