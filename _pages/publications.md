@@ -1,6 +1,6 @@
 ---
 layout: page
-permalink: /publications/
+<!-- permalink: /publications/ -->
 title: Publications
 description: 
 years: [Under Review, 2020, 2019]
