@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Zhenan Fan | Distance Between Sets</title>
+  <meta name="description" content="Personal website.
+">
+
+  
+
+  <link rel="shortcut icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="canonical" href="/blog/2020/distance-between-sets/">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    
+    <span class="site-title">
+        
+        <strong>Zhenan</strong> Fan
+    </span>
+    
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="/">about</a>
+
+        <!-- Blog -->
+        <a class="page-link" href="/blog/">blog</a>
+
+        <!-- Pages -->
+        
+          
+        
+          
+        
+          
+        
+          
+            <a class="page-link" href="/publications/">Publications</a>
+          
+        
+          
+        
+
+        <!-- CV link -->
+        <!-- <a class="page-link" href="/assets/pdf/main.pdf">vitae</a> -->
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Distance Between Sets</h1>
+    <p class="post-meta">February 10, 2020</p>
+  </header>
+
+  <article class="post-content">
+    <p>In this post, I want to discuss one of the most famous distances between subsets of $\mathbb{R}^n$ – the Hausdorff distance. Based on that, I will also introduce some convergence analysis regarding set-valued functions. Most of the theoretical results here can be found in <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> and <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>.</p>
+
+<h2 id="distance-from-point-to-set">Distance from point to set</h2>
+<p>Let $C$ be a nonempty subset of $\mathbb{R}^n$ and $x$ be any point in $\mathbb{R}^n$, then the <strong>distance from $x$ to $C$</strong> is defined to be the minimal among the distances between $x$ and points in $C$. Formally,</p>
+
+<script type="math/tex; mode=display">\mathrm{dist}(x \to C) = \min\limits_{c \in C} \|x - c\|,</script>
+
+<p>where $|\cdot|$ can be any valid norm. Geometrically, let $x_c$ denote the projected point from $x$ onto $C$, then the distance from $x$ to $C$ is equal to the distance between $x$ and $x_c$.</p>
+
+<p>Next, we generalize this distance to sets.</p>
+<h2 id="distance-from-set-to-set">Distance from set to set</h2>
+<p>Let $C_1$ and $C_2$ be two nonempty subsets of $\mathbb{R}^n$, then the <strong>distance from $C_1$ to $C_2$</strong> is defined to be the supreme over all the distances from points in $C_1$ to $C_2$. Formally,</p>
+
+<script type="math/tex; mode=display">\mathrm{dist}(C_1 \to C_2) = \sup_{x \in C_1} \mathrm{dist}(x \to C_2).</script>
+
+<p>Geometrically, if the distance from $C_1$ to $C_2$ is small, then this means $C_1$ is contained in some neighbourhood of $C_2$. More specifically, we have the following lemma.</p>
+
+<p><strong>Lemma:</strong> $\mathrm{dist}(C_1 \to C_2) \leq \epsilon$ if and only if $C_1 \subseteq C_2 + \mathbb{B}(0, \epsilon)$, where $\mathbb{B}(0, \epsilon)$ is the $|\cdot|$-ball centered at $0$ with radius $\epsilon$.</p>
+
+<h2 id="distance-between-sets">Distance between sets</h2>
+<p>The Huasdorff-distance between $C_1$ and $C_2$ is then the symmetrization of the above ideas. Formally, the <strong>Huasdorff-distance between $C_1$ and $C_2$</strong> is defined as</p>
+
+<script type="math/tex; mode=display">\mathrm{dist}(C_1, C_2) = \max\{\mathrm{dist}(C_1 \to C_2), \mathrm{dist}(C_2 \to C_1)\}.</script>
+
+<p>The next picture is obtained from Wikipedia.</p>
+
+<p><img src="/assets/img/post4/Hausdorff.png" alt="Function" /></p>
+
+<p><strong>Proposition:</strong></p>
+
+<script type="math/tex; mode=display">\mathrm{dist}(C_1, C_2) = \sup_{\|d\| = 1} |\sigma_{C_1}(d) - \sigma_{C_2}(d)|.</script>
+
+<p><strong>Proof:</strong> By the previous lemma, we know that $\mathrm{dist}(C_1, C_2) \leq \epsilon$ if and only if $C_1 \subseteq C_2 + \mathbb{B}(0, \epsilon)$ and $C_2 \subseteq C_2 + \mathbb{B}(0, \epsilon)$ and this means that</p>
+
+<script type="math/tex; mode=display">\forall \|d\| = 1,\enspace\sigma_{C_1}(d) \leq \sigma_{C_2}(d) + \epsilon \enspace \text{and} \enspace \sigma_{C_1}(d) \leq \sigma_{C_2}(d) + \epsilon.</script>
+
+<p>Therefore, we can conclude that</p>
+
+<script type="math/tex; mode=display">\mathrm{dist}(C_1, C_2) = \sup_{\|d\| = 1} |\sigma_{C_1}(d) - \sigma_{C_2}(d)|.</script>
+
+<h2 id="set-convergence">Set convergence</h2>
+<p>Before introducing the concept of set convergence, we need the following definitions regarding the inner and outer limits of sets.</p>
+
+<p><strong>Definition</strong> Let ${C_i}_{i = 1}^{\infty}$ be a infinite sequence of convex sets in $\mathbb{R}^n$. The outer limit or the limes exterior of $C_i$’s is the set of all cluster points of all selections. Specifically,</p>
+
+<script type="math/tex; mode=display">\lim\mathrm{ext}_{i \to \infty} C_i = \{c \mid \exists (c_j)_{j \in J \subseteq \mathbb{N}}, \enspace \text{such that}\enspace c_j \in C_j, c_j \to c\}.</script>
+
+<p>The inner limit or the limes interior of $C_i$’s is the set of limits of all convergent selections. Specifically,</p>
+
+<script type="math/tex; mode=display">\lim\mathrm{int}_{i \to \infty} C_i = \{c \mid \exists (c_i)_{i \in \mathbb{N}}, \enspace \text{such that}\enspace c_i \in C_i, c_i \to c\}.</script>
+
+<p>It is clear that we always have</p>
+
+<script type="math/tex; mode=display">\lim\mathrm{int}_{i \to \infty} \subseteq \lim\mathrm{ext}_{i \to \infty} C_i.</script>
+
+<p><img src="/assets/img/post4/convergence.png" alt="Function" /></p>
+
+<p>When these two sets are equal, the common set is defined to be the limit of $C_i$’s. Specifically,</p>
+
+<script type="math/tex; mode=display">C = \lim_{i \to \infty} C_i \enspace\text{iff}\enspace C = \lim\mathrm{ext}_{i \to \infty} C_i = \lim\mathrm{int}_{i \to \infty} C_i.</script>
+
+<p><strong>Relation with Hausdorff-distance</strong> In general, convergence with respect to Hausdorff-distance is not equivalent to set convergence as just defined. The next example will illustrate that.</p>
+
+<p><strong>Example</strong> Let $C_i = [0, i]$ and $C = \mathbb{R}_{\geq 0}$, then it is obviously that</p>
+
+<script type="math/tex; mode=display">\lim_{i \to \infty} C_i = C.</script>
+
+<p>Hoever, the Hausdorff-distance between $C_i$ and $C$ is always $\infty$.</p>
+
+<p>Is there is a way to link these two convergence? The answer is yes. We just need an additional boundedness restriction.</p>
+
+<p><strong>Theorem</strong> Suppose there is a bounded set $X \subset \mathbb{R}^n$ such that $C_i, C \subseteq X$, then</p>
+
+<script type="math/tex; mode=display">\lim_{i \to \infty} C_i = C \enspace \Leftrightarrow \enspace \mathrm{dist}(C_i, C) \to 0.</script>
+
+<h4 id="references">References</h4>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Hiriart-Urruty, Jean-Baptiste, and Claude Lemaréchal. Fundamentals of convex analysis. Springer Science and Business Media, 2012. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Rockafellar, R. Tyrrell, and Roger J-B. Wets. Variational analysis. Vol. 317. Springer Science &amp; Business Media, 2009. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </article>
+
+  
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname  = 'zhenanf';
+      var disqus_identifier = '/blog/2020/distance-between-sets';
+      var disqus_title      = "Distance Between Sets";
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <footer>
+
+  <div class="wrapper">
+    &copy; Copyright 2020 Zhenan Fan.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+
+    
+  </div>
+
+</footer>
+
+
+
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="/assets/js/common.js"></script>
+
+
+<!-- Load KaTeX -->
+<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+<script src="/assets/js/katex.js"></script> -->
+<script type="text/javascript" async
+   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+          inlineMath: [ ['$', '$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'] ],
+          processEscapes: true
+        }
+      });
+</script>
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="/assets/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/assets/css/academicons.min.css">
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-154621803-2', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+
+</html>

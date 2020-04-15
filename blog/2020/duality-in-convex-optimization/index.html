@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Zhenan Fan | Duality in Convex Optimization</title>
+  <meta name="description" content="Personal website.
+">
+
+  
+
+  <link rel="shortcut icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="canonical" href="/blog/2020/duality-in-convex-optimization/">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    
+    <span class="site-title">
+        
+        <strong>Zhenan</strong> Fan
+    </span>
+    
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="/">about</a>
+
+        <!-- Blog -->
+        <a class="page-link" href="/blog/">blog</a>
+
+        <!-- Pages -->
+        
+          
+        
+          
+        
+          
+        
+          
+            <a class="page-link" href="/publications/">Publications</a>
+          
+        
+          
+        
+
+        <!-- CV link -->
+        <!-- <a class="page-link" href="/assets/pdf/main.pdf">vitae</a> -->
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Duality in Convex Optimization</h1>
+    <p class="post-meta">January 9, 2020</p>
+  </header>
+
+  <article class="post-content">
+    <p>In this post we will discuss a widely used concept in convex optimization: duality. The concept of convex duality not only has mathematical elegance but also provide alternative problems which are possibly easier to solve. Most of the discussion here can be found in <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> and <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>.</p>
+
+<h2 id="dual-representation-of-convex-sets">Dual Representation of Convex Sets</h2>
+
+<p>Before describing the idea of duality, we first consider an example. Let $C$ be a convex set in $\mathbb{R}^n$. From our previous <a href="https://zhenanfanubc.github.io/posts/function-perspective-of-convex-sets">post</a>, we know that we have two ways to represent $C$, namely</p>
+
+<ul>
+  <li>$C = \operatorname{co}\{x \in \mathbb{R}^n: \gamma_C(x) \leq 1\}$;</li>
+  <li>$C = \bigcap\limits_{z \in \mathbb{S}^{n-1}}\{x: \langle z, x\rangle - \sigma_C(z) \leq 0\}$,</li>
+</ul>
+
+<p>where the first one can be seen as representing $C$ by convex hull of a set of points (standard representation) and the second one can be seen as representing $C$ by the intersection of all halfspaces containing the set (“dual” representation).</p>
+
+<p><img src="/assets/img/post2/dual_set.png" alt="Set" /></p>
+
+<h2 id="dual-representation-of-convex-functions">Dual Representation of Convex Functions</h2>
+<p>Let $f: \mathbb{R}^n \to \mathbb{R}$ be a convex function. From basic convex analysis, we know that $f$ is convex if and only if its epigraph is a convex set, where</p>
+
+<script type="math/tex; mode=display">epif = \{(x, t) \in \mathbb{R}^{n + 1} \mid f(x) \leq t\}.</script>
+
+<p>From our previous discussion, we can dually represent $f$ by supporting halfspaces of $epif$. For a given slope $z \in \mathbb{S}^{n - 1}$, let us describe the supporting halfspace of $epif$ by an affine function</p>
+
+<script type="math/tex; mode=display">\ell_{z, \alpha}(x) = \langle z, x\rangle - \alpha,</script>
+
+<p>and we want to find the “best” affine function, namely the minimum choice of $\alpha$ such that $\ell_{z, \alpha}$ is still a lower minirant for $f$. In other words,</p>
+
+<div>
+$$
+\begin{align}
+ \alpha^* &amp;= \operatorname{argmin}\{\alpha \mid f(x) \geq \langle z, x\rangle - \alpha, \forall x \in \mathbb{R}^n\} 
+ \\&amp;= \operatorname{argmin}\{\alpha \mid \alpha \geq \langle z, x\rangle - f(x), \forall x \in \mathbb{R}^n\}
+ \\&amp;= \operatorname{argmin}\{\alpha \mid \alpha \geq \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]\}
+ \\&amp;= \sup\limits_{x \in \mathbb{R}^n}\left[\langle z, x\rangle - f(x)\right]
+ \\&amp;=: f^*(z).
+\end{align}
+$$ 
+</div>
+
+<p>The function $f^*$ is called the <strong>conjugate function</strong> of $f$ which can be viewed as the dual representation of $f$.</p>
+
+<p><img src="/assets/img/post2/dual_function.png" alt="Function" /></p>
+
+<h2 id="dual-of-convex-optimization-problems">Dual of Convex Optimization Problems</h2>
+<p>Finally, we can talk about dual optimization problems. Consider the optimization problem</p>
+
+<script type="math/tex; mode=display">\min_{x \in \mathbb{R}^n} \enspace f(x),</script>
+
+<p>where $f: \mathbb{R}^n \to \mathbb{R}$ is a convex function.</p>
+
+<p>Note that given an optimization problem there are different dual problems depending on how we <strong>perturb</strong> the optimization problem.</p>
+
+<p>Formally, we introduce a convex function $F: \mathbb{R}^n \times \mathbb{R}^m \to \mathbb{R}$ such that</p>
+
+<script type="math/tex; mode=display">F(x, 0) = f(x).</script>
+
+<p>We call this function <strong>perturbation function</strong>. Now if we define</p>
+
+<script type="math/tex; mode=display">v(y) = \inf_{x \in \mathbb{R}^n} F(x, y),</script>
+
+<p>then our optimization problem is simply to evaluate $v(0)$. Note that $v$ is often called <strong>value function</strong>. Since $F$ is convex, by the property of conjugate function, it follows that</p>
+
+<script type="math/tex; mode=display">v(0) = v^{**}(0),</script>
+
+<p>and the dual problem is simply to evaluate $v^{**}(0)$. In other words, the dual problem is given by</p>
+
+<script type="math/tex; mode=display">v^{**}(0) = \max_{z \in \mathbb{R}^m}\enspace -v^*(z).</script>
+
+<p>Finally, I am going to explain three most common duals: Fenchel dual, Lagrange dual and Gauge dual using the convex duality framework.</p>
+
+<h4 id="fenchel-dual">Fenchel Dual</h4>
+<p>Consider the optimization problem</p>
+
+<script type="math/tex; mode=display">\min_{x} \enspace f(x) + g(Mx),</script>
+
+<p>where $f: \mathbb{R}^n \to \mathbb{R}$, $g: \mathbb{R}^m \to \mathbb{R}$ are two convex functions and $M: \mathbb{R}^n \to \mathbb{R}^m$ is a linear operator.</p>
+
+<p>Introduce the perturbion function:</p>
+
+<script type="math/tex; mode=display">F(x, y) = f(x) + g(Mx + y),</script>
+
+<p>then the value function is</p>
+
+<script type="math/tex; mode=display">v(y) = \inf_{x \in \mathbb{R}^n}f(x) + g(Mx + y).</script>
+
+<p>The conjugate of the value function is given by</p>
+
+<div>
+$$
+\begin{align}
+ v^*(z) &amp;= \sup_{y \in \mathbb{R}^m} \langle y, z\rangle - v(y)
+ \\&amp;= \sup_{y \in \mathbb{R}^m} \bigg[ \langle y, z\rangle - \inf_{x \in \mathbb{R}^n}\left(f(x) + g(Mx + y)\right) \bigg]
+ \\&amp;= \sup_{y \in \mathbb{R}^m} \sup_{x \in \mathbb{R}^n} \enspace \langle y, z\rangle - f(x) - g(Mx + y)
+ \\&amp;= \sup_{x \in \mathbb{R}^n} \bigg(\sup_{y \in \mathbb{R}^m} \enspace \langle y + Mx, z\rangle - g(Mx + y)\bigg) + \langle -Mx, z\rangle - f(x)
+ \\&amp;= \sup_{x \in \mathbb{R}^n} \enspace g^*(z) + \langle x, -M^*z\rangle - f(x)
+ \\&amp;= g^*(z) + \sup_{x \in \mathbb{R}^n} \langle x, -M^*z\rangle - f(x)
+ \\&amp;= g^*(z) + f^*(-M^*z),
+\end{align}
+$$
+</div>
+
+<p>where $M^*$ is the adjoint operator. Therefore, following the previous discussion, the dual problem is given by</p>
+
+<script type="math/tex; mode=display">\max_{z \in \mathbb{R}^m} - g^*(-z) - f^*(M^*z),</script>
+
+<p>which is also called <strong>Fenchel dual</strong>.</p>
+
+<h4 id="lagrange-dual">Lagrange Dual</h4>
+<p>Consider the optimization problem</p>
+
+<script type="math/tex; mode=display">\min_{x} \enspace f(x) \quad\text{subject to}\quad g(x) \leq 0,</script>
+
+<p>where $f: \mathbb{R}^n \to \mathbb{R}$ and $g: \mathbb{R}^n \to \mathbb{R}^m$ are convex functions. Now we define a new function by</p>
+
+<div>
+$$\delta(w) =
+  \begin{cases}
+        0 &amp; \text{if}\enspace w \leq 0 \\
+        \infty &amp; \text{otherwise}
+  \end{cases},$$ 
+</div>
+
+<p>then the optimization is equivalent to</p>
+
+<script type="math/tex; mode=display">\min_{x} \enspace f(x) + \delta(g(x)).</script>
+
+<p>Introduce the perturbation function:</p>
+
+<script type="math/tex; mode=display">F(x, y) = f(x) + \delta(g(x) + y),</script>
+
+<p>then the value function is is</p>
+
+<script type="math/tex; mode=display">v(y) = \inf_{x \in \mathbb{R}^n} \enspace f(x) + \delta(g(x) + y).</script>
+
+<p>The conjugate of the value function is given by</p>
+
+<div>
+$$
+\begin{align}
+ v^*(z) &amp;= \sup_{y \in \mathbb{R}^m} \langle y, z\rangle - v(y)
+ \\&amp;= \sup_{y \in \mathbb{R}^m} \sup_{x \in \mathbb{R}^n} \enspace \langle y, z\rangle - f(x) - \delta(g(x) + y)
+ \\&amp;= \sup_{x \in \mathbb{R}^n, y \in \mathbb{R}^m: g(x) + y \leq 0} \quad \langle y, z\rangle - f(x)
+ \\&amp;= \sup_{x \in \mathbb{R}^n, w \in \mathbb{R}^m: w \geq 0} \langle -g(x) + w, z\rangle - f(x)
+ \\&amp;= \sup_{x \in \mathbb{R}^n} \enspace \bigg(\langle -g(x), z\rangle - f(x)\bigg) + \sup_{w \in \mathbb{R}^m: w \geq 0} \langle w, z\rangle
+ \\&amp;= \sup_{x \in \mathbb{R}^n} \enspace \bigg(\langle -g(x), z\rangle - f(x)\bigg) + \delta(z).
+\end{align}
+$$
+</div>
+
+<p>Therefore, following the previous discussion, the dual problem is given by</p>
+
+<script type="math/tex; mode=display">\max_{z \in \mathbb{R}^m: z \geq 0} \enspace \min_{x \in \mathbb{R}^n} \enspace f(x) + \langle z, g(x)\rangle,</script>
+
+<p>which is also called <strong>Lagrange dual</strong>.</p>
+
+<h4 id="gauge-dual">Gauge Dual</h4>
+<p>Consider the optimization problem</p>
+
+<script type="math/tex; mode=display">\min_{x} \enspace \gamma_C(x) \quad\text{subject to}\quad Mx = b,</script>
+
+<p>where $C$ is a convex set in $\mathbb{R}^n$ and $\gamma_C$ is the corresponding gauge function as introduced in the previous <a href="https://zhenanfanubc.github.io/posts/function-perspective-of-convex-sets">post</a>.</p>
+
+<p>Let $p^*$ denote the optimal value for this optimization problem, then equivalently, we can express the problem as:</p>
+
+<div>
+$$
+\begin{align}
+ p^* &amp;= \inf_{x, \mu}\enspace\{\mu \mid Mx = b, \gamma_C(x) \leq \mu\}
+ \\&amp;= \inf_{x, \lambda}\enspace\{\frac{1}{\lambda} \mid Mx = \lambda b, x \in C\}.
+\end{align}
+$$
+</div>
+
+<p>Based on that, we define the perturbation function:</p>
+
+<script type="math/tex; mode=display">F(x, \lambda, y) = -\lambda + \delta_{\{0\}}(\lambda b - Ax + y) + \delta_C(x).</script>
+
+<p>Let $v(y)$ denote the corresponding value function, namely</p>
+
+<script type="math/tex; mode=display">v(y) = \inf_{x, \lambda} F(x, \lambda, y).</script>
+
+<p>It is then obvious that $p^* = -\frac{1}{v(0)}$.</p>
+
+<p>Then through direct computation, you should be able to obtain</p>
+
+<script type="math/tex; mode=display">v^*(z) = \sigma_C(M^*z) + \delta_{\langle b, \cdot\rangle \geq 1}(z).</script>
+
+<p>The detailed procedure can be found in <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>. Therefore, following the previous discussion, the dual problem is given by</p>
+
+<script type="math/tex; mode=display">\min_{z} \enspace \sigma_C(M^*z) \quad\text{subject to}\quad \langle b, z\rangle \geq 1,</script>
+
+<p>which is also called <strong>Gauge dual</strong>. It is worthy noting that in Gauge dual, when strong duality holds, we have $p^* = \frac{1}{d^*}$, which is different from Fenchel dual and Lagrange dual.</p>
+
+<h4 id="references">References</h4>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Rockafellar, R. Tyrrell. Convex analysis. Vol. 28. Princeton university press, 1970. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Ekeland, Ivar, and Roger Temam. Convex analysis and variational problems. Vol. 28. Siam, 1999. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>Aravkin, A. Y., Burke, J. V., Drusvyatskiy, D., Friedlander, M. P., &amp; MacPhee, K. J. (2018). Foundations of gauge and perspective duality. SIAM Journal on Optimization, 28(3), 2406-2434. <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </article>
+
+  
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname  = 'zhenanf';
+      var disqus_identifier = '/blog/2020/duality-in-convex-optimization';
+      var disqus_title      = "Duality in Convex Optimization";
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <footer>
+
+  <div class="wrapper">
+    &copy; Copyright 2020 Zhenan Fan.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+
+    
+  </div>
+
+</footer>
+
+
+
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="/assets/js/common.js"></script>
+
+
+<!-- Load KaTeX -->
+<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+<script src="/assets/js/katex.js"></script> -->
+<script type="text/javascript" async
+   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+          inlineMath: [ ['$', '$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'] ],
+          processEscapes: true
+        }
+      });
+</script>
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="/assets/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/assets/css/academicons.min.css">
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-154621803-2', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+
+</html>
