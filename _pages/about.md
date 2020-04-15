@@ -9,6 +9,7 @@ profile:
   image: avatar.jpg
   address: 
 
+background: true
 news: false
 social: true
 ---
