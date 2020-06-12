@@ -112,7 +112,7 @@ where $f$ is a non-smooth convex funtion. Let $x^*$ denote the optimizer for $f$
 
 $$\min_{x \in \mathbb{R}^n} \enspace f_\mu(x).$$
 
-Let $x^*_\mu$ denote the optimizer for $f_\mu$. It is widely known that to attain $\epsilon$-accuracy for minimizing a $L$-smooth convex function by accelerated gradient descent, one needs $\mathcal{O}\left(\sqrt{\frac{L}{\epsilon}}\right)$ iterations. Now we know that $f_\mu$ is $\frac{\alpha}{\mu}$-smooth, in order to attain $\frac{\epsilon}{2}$-accuracy, we need $\mathcal{O}\left(\sqrt{\frac{\alpha}{\mu\epsilon}}\right)$ iteration. Let $x^t$ denote the output. Finally, we set $\mu$ such that $\beta\mu = \frac{\epsilon}{2}$. Then we have 
+Let $x_\mu^*$ denote the optimizer for $f_\mu$. It is widely known that to attain $\epsilon$-accuracy for minimizing a $L$-smooth convex function by accelerated gradient descent, one needs $\mathcal{O}\left(\sqrt{\frac{L}{\epsilon}}\right)$ iterations. Now we know that $f_\mu$ is $\frac{\alpha}{\mu}$-smooth, in order to attain $\frac{\epsilon}{2}$-accuracy, we need $\mathcal{O}\left(\sqrt{\frac{\alpha}{\mu\epsilon}}\right)$ iteration. Let $x^t$ denote the output. Finally, we set $\mu$ such that $\beta\mu = \frac{\epsilon}{2}$. Then we have 
 
 <div>
 $$
