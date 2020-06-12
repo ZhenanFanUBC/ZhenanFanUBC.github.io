@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Zhenan Fan | Concentration Inequalities</title>
+  <meta name="description" content="Personal website.
+">
+
+  
+
+  <link rel="shortcut icon" href="/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="canonical" href="/blog/2020/concentration-inequalities/">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    
+    <span class="site-title">
+        
+        <strong>Zhenan</strong> Fan
+    </span>
+    
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="/">about</a>
+
+        <!-- Blog -->
+        <a class="page-link" href="/blog/">blog</a>
+
+        <!-- Pages -->
+        
+          
+        
+          
+        
+          
+        
+          
+            <a class="page-link" href="/publications/">Publications</a>
+          
+        
+          
+        
+
+        <!-- CV link -->
+        <!-- <a class="page-link" href="/assets/pdf/main.pdf">vitae</a> -->
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Concentration Inequalities</h1>
+    <p class="post-meta">February 22, 2020</p>
+  </header>
+
+  <article class="post-content">
+    <p>Concentration inequalities are used to bound the deviation of a random variable $X$ from its expectation $\mathbb{E}(X)$. They usually take the form of</p>
+
+<script type="math/tex; mode=display">\mathbb{P}(|X - \mathbb{E}(X)| \geq t) \leq g(t),</script>
+
+<p>where $g(t)$ is usually very small like $e^{-t^2}$. These concentration inequalities are very important in statistical learning theory as they describe how a random variable is “concentrated” around its expectation. In this post, I will give an overview of several commonly used concentration inequalities as well as some numerical experiments written in Julia. Most of the theoretical results here can be found in <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> and <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>.</p>
+
+<p>We start with the simplest concentration inequality.</p>
+<h2 id="chebyshev-inequality">Chebyshev Inequality</h2>
+<p><strong>Theorem</strong> (Chebyshev inequality) Let $X$ be any random variable, then for any $t &gt; 0$,</p>
+
+<script type="math/tex; mode=display">\mathbb{P}(|X - \mathbb{E}(X)| \geq t) \leq \frac{\mathrm{Var}(X)}{t^2}.</script>
+
+<p>In the following experiment, I compare the probabilistic bound provided by the Chebyshev inequality and the empirical one.</p>
+
+<p><strong>Experiment 1</strong> Consider random variable $X = \sum\limits_{i = 1}^{10} X_i$, where all $X_i$’s are independent standard Bernoulli, namely</p>
+
+<script type="math/tex; mode=display">\mathbb{P}(X_i = 0) = \mathbb{P}(X_i = 1) = 0.5.</script>
+
+<p>It is well-known that $X$ is then from $\mathrm{Binomial}(10, 0.5)$, so the expectation and vairance are given by 
+<script type="math/tex">\mathbb{E}(X) = 5, \quad \mathrm{Var}(X) = 2.5.</script></p>
+
+<p>Then by Chebyshev inequality, we have</p>
+
+<script type="math/tex; mode=display">\mathbb{P}(|X - 5| \geq t) \leq \frac{2.5}{t^2}.</script>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="n">Statistics</span><span class="x">,</span> <span class="n">Distributions</span><span class="x">,</span> <span class="n">Plots</span>
+<span class="c"># number of trials</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="c"># distribution</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">Binomial</span><span class="x">(</span><span class="mi">10</span><span class="x">,</span> <span class="mf">0.5</span><span class="x">)</span>
+<span class="c"># get random samples</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">rand</span><span class="x">(</span><span class="n">d</span><span class="x">,</span> <span class="n">N</span><span class="x">)</span>
+<span class="c"># probabilities</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">:</span><span class="mf">0.01</span><span class="o">:</span><span class="mi">5</span>
+<span class="n">chebyshev</span> <span class="o">=</span> <span class="mf">2.5</span><span class="o">./</span><span class="x">(</span><span class="n">ts</span><span class="o">.^</span><span class="mi">2</span><span class="x">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">ts</span><span class="x">)</span>
+<span class="n">emperical</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">T</span><span class="x">);</span> <span class="n">Xn</span> <span class="o">=</span> <span class="n">abs</span><span class="o">.</span><span class="x">(</span><span class="n">X</span><span class="o">.-</span><span class="mi">5</span><span class="x">);</span>
+<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="x">(</span><span class="n">ts</span><span class="x">)</span>
+    <span class="n">emperical</span><span class="x">[</span><span class="n">i</span><span class="x">]</span> <span class="o">=</span> <span class="n">count</span><span class="x">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="x">(</span><span class="n">x</span><span class="o">&gt;=</span><span class="n">ts</span><span class="x">[</span><span class="n">i</span><span class="x">]),</span> <span class="n">Xn</span><span class="x">)</span><span class="o">/</span><span class="n">N</span>
+<span class="k">end</span>
+<span class="c"># plot</span>
+<span class="n">plot</span><span class="x">(</span><span class="n">ts</span><span class="x">,</span> <span class="x">[</span><span class="n">chebyshev</span><span class="x">,</span> <span class="n">emperical</span><span class="x">],</span> 
+    <span class="n">labels</span><span class="o">=</span><span class="x">[</span><span class="s">"Chebyshev"</span> <span class="s">"Emperical"</span><span class="x">],</span> 
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"t"</span><span class="x">,</span> 
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"probability"</span><span class="x">,</span>
+    <span class="n">ylims</span> <span class="o">=</span> <span class="x">(</span><span class="mi">0</span><span class="x">,</span><span class="mi">1</span><span class="x">))</span>
+</code></pre></div></div>
+
+<p><img src="/assets/img/post5/Chebyshev.png" alt="Output1" /></p>
+
+<p>As we can see from the experiment, the probabilistic bound given by the Chebyshev inequality is vert untight. Can we have a tighter bound? The answer is: Yes!</p>
+
+<h2 id="hoeffdings-inequality">Hoeffding’s Inequality</h2>
+<p><strong>Theorem</strong> (Hoeffding’s inequality) Let $X_1, \dots, X_n$ be independent Rademacher random variables, namely</p>
+
+<script type="math/tex; mode=display">\mathbb{P}(X_i = -1) = \mathbb{P}(X_i = 1) = 0.5,</script>
+
+<p>and $a \in \mathbb{R}^n$. Then for any $t \geq 0$,</p>
+
+<script type="math/tex; mode=display">\mathbb{P}\left(\left|\sum_{i = 1}^n a_iX_i\right| \geq t\right) \leq 2\exp\left(-\frac{t^2}{2\|a\|^2}\right).</script>
+
+<p>Let’s put the probabilistic bound provided by the Hoeffding’s inequality in the previous plot.</p>
+
+<p><strong>Experiment 1 (continued)</strong> For each $i$, we define $Y_i = 2(X_i - \frac{1}{2})$, then $Y_i$ is a 
+Rademacher random variable. By simple computation, we get</p>
+
+<div>
+$$
+\begin{align}
+  \mathbb{P}(|X - E(X)| \geq t) &amp;= \mathbb{P}\left(\left|\frac{1}{2}\sum\limits_{i = 1}^{10}Y_i\right| \geq t\right)
+  \\&amp;= \mathbb{P}\left(\left|\sum\limits_{i = 1}^{10}Y_i\right| \geq 2t\right)
+  \\&amp;\leq 2\exp\left(-\frac{t^2}{5}\right).
+\end{align}
+$$
+</div>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hoeffding</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="x">(</span><span class="o">-</span><span class="n">ts</span><span class="o">.^</span><span class="mi">2</span><span class="o">/</span><span class="mi">5</span><span class="x">)</span>
+<span class="n">plot</span><span class="x">(</span><span class="n">ts</span><span class="x">,</span> <span class="x">[</span><span class="n">chebyshev</span><span class="x">,</span> <span class="n">emperical</span><span class="x">,</span> <span class="n">hoeffding</span><span class="x">],</span> 
+    <span class="n">labels</span><span class="o">=</span><span class="x">[</span><span class="s">"Chebyshev"</span> <span class="s">"Emperical"</span> <span class="s">"Hoeffding"</span><span class="x">],</span> 
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"t"</span><span class="x">,</span> 
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"probability"</span><span class="x">,</span>
+    <span class="n">ylims</span> <span class="o">=</span> <span class="x">(</span><span class="mi">0</span><span class="x">,</span><span class="mi">1</span><span class="x">))</span>
+</code></pre></div></div>
+<p><img src="/assets/img/post5/Hoeffding.png" alt="Output2" /></p>
+
+<p>So far, the Hoeffding’s inequality can only be applied to Bernoulli and Rademacher random variables, which is too restrictive. In the next step, we would like to extend the result for a wider range of distributions, for example, the Gaussian distribution. The resulting distribution is called subgaussian distribution, which is a super class of a lot of commonly used distributions including Gaussian and Uniform.</p>
+
+<h2 id="subgaussian-distribution">Subgaussian Distribution</h2>
+<p><strong>Definition</strong> A random variable $X \in \mathbb{R}$ is said to be subgaussian with variance $\sigma^2$ if $\mathbb{E}(X) = 0$ and its moment generating function satisfies</p>
+
+<script type="math/tex; mode=display">\mathbb{E}(\exp(tX)) \leq \exp\left(\frac{\sigma^2}{2}t^2\right).</script>
+
+<p>For convenience, we also say that $X$ is $\sigma$-subgaussian.</p>
+
+<p>Here are some classical examples of subgaussian random variables:</p>
+<ul>
+  <li>(Gaussian) If $X \sim \mathcal{N}(0, \sigma^2)$, then $X$ is $\sigma$-subgaussian.</li>
+  <li>(Rademacher) If $X$ is a random Rademacher variable, then $X$ is $1$-subgaussian.</li>
+  <li>(Uniform) If $X$ is uniformly distributed over the interval $[-a, a]$, then $X$ is $a$-subgaussian.</li>
+  <li>(Bounded) If $X$ is a random variable with zero mean and $|X| \leq b$ for some $b &gt; 0$, then $X$ is $b$-subgaussian.</li>
+</ul>
+
+<p>Similar as Gaussian, the sum of independent subgaussian random variables is still subgaussian.</p>
+
+<p><strong>Theorem</strong> Suppose that the variables $X_i$, $i = 1, \dots, n$ are independent, and $X_i$ is $\sigma_i$-subgaussian, then $X := X_1 + \dots + X_n$ is $(\sigma_1 + \dots + \sigma_n)$-subgaussian.</p>
+
+<p>We will then introduce the concentration inequality on the sum of independent subgaussian random variables.</p>
+<h2 id="general-hoeffdings-inequality">General Hoeffding’s Inequality</h2>
+<p><strong>Theorem</strong> (General Hoeffding’s inequality) Suppose that the variables $X_i$, $i = 1, \dots, n$ are independent, and $X_i$ is $\sigma_i$-subgaussian. Then for all $t \geq 0$, we have</p>
+
+<script type="math/tex; mode=display">\mathbb{P}\left(\left|\sum\limits_{i = 1}^n X_i\right| \geq t\right) \leq 2\exp\left(-\frac{t^2}{2\sum_{i = 1}^n \sigma_i^2}\right).</script>
+
+<p>In the following experiment, I compare the probabilistic bound provided by the general Hoeffding’s inequality and the empirical one.</p>
+
+<p><strong>Experiment 2</strong> Consider indenpendent random variables $X_1 \sim \mathcal{N}(0, 1)$, $X_2 \sim$ Rademacher and $X_3 \sim \mathrm{Unif}([-1, 1])$. Let $X = X_1 + X_2 + X_3$, then by the general Hoeffding’s inequality, we have</p>
+
+<script type="math/tex; mode=display">\mathbb{P}(|X| \geq t) \leq 2\exp\left(-\frac{t^2}{6}\right).</script>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># number of trials</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="c"># distribution</span>
+<span class="n">d1</span> <span class="o">=</span> <span class="n">Normal</span><span class="x">(</span><span class="mi">0</span><span class="x">,</span> <span class="mi">1</span><span class="x">)</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="n">Binomial</span><span class="x">(</span><span class="mi">1</span><span class="x">,</span> <span class="mf">0.5</span><span class="x">)</span>
+<span class="n">d3</span> <span class="o">=</span> <span class="n">Uniform</span><span class="x">(</span><span class="o">-</span><span class="mi">1</span><span class="x">,</span> <span class="mi">1</span><span class="x">)</span>
+<span class="c"># get random samples</span>
+<span class="n">X1</span> <span class="o">=</span> <span class="n">rand</span><span class="x">(</span><span class="n">d1</span><span class="x">,</span> <span class="n">N</span><span class="x">)</span>
+<span class="n">X2</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="x">(</span><span class="n">rand</span><span class="x">(</span><span class="n">d2</span><span class="x">,</span> <span class="n">N</span><span class="x">)</span> <span class="o">.-</span> <span class="mf">0.5</span><span class="x">)</span>
+<span class="n">X3</span> <span class="o">=</span> <span class="n">rand</span><span class="x">(</span><span class="n">d3</span><span class="x">,</span> <span class="n">N</span><span class="x">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X1</span> <span class="o">+</span> <span class="n">X2</span> <span class="o">+</span> <span class="n">X3</span>
+<span class="c"># probabilities</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">:</span><span class="mf">0.01</span><span class="o">:</span><span class="mi">5</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">ts</span><span class="x">)</span>
+<span class="n">emperical</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">T</span><span class="x">);</span>
+<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="x">(</span><span class="n">ts</span><span class="x">)</span>
+    <span class="n">emperical</span><span class="x">[</span><span class="n">i</span><span class="x">]</span> <span class="o">=</span> <span class="n">count</span><span class="x">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="x">(</span><span class="n">abs</span><span class="x">(</span><span class="n">x</span><span class="x">)</span><span class="o">&gt;=</span><span class="n">ts</span><span class="x">[</span><span class="n">i</span><span class="x">]),</span> <span class="n">X</span><span class="x">)</span><span class="o">/</span><span class="n">N</span>
+<span class="k">end</span>
+<span class="n">hoeffding</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="x">(</span><span class="o">-</span><span class="n">ts</span><span class="o">.^</span><span class="mi">2</span><span class="o">/</span><span class="mi">6</span><span class="x">)</span>
+<span class="n">plot</span><span class="x">(</span><span class="n">ts</span><span class="x">,</span> <span class="x">[</span><span class="n">hoeffding</span><span class="x">,</span> <span class="n">emperical</span><span class="x">],</span> 
+    <span class="n">labels</span><span class="o">=</span><span class="x">[</span><span class="s">"Hoeffding"</span> <span class="s">"Emperical"</span><span class="x">],</span> 
+    <span class="n">ylims</span> <span class="o">=</span> <span class="x">(</span><span class="mi">0</span><span class="x">,</span><span class="mi">1</span><span class="x">),</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"t"</span><span class="x">,</span> 
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"probability"</span><span class="x">)</span>
+</code></pre></div></div>
+<p><img src="/assets/img/post5/Subgaussian.png" alt="Output3" /></p>
+
+<p>Up until this point, we have introduced several concentration inequalities on the sum of independent random variables. However, there are many problems requiring bounds on functions of inpendent random variables. The next theorem we are going to introduce shows that it is possible to given concentration inequality for function of independent random variables if the function is “bounded”.</p>
+
+<h2 id="bounded-differences-inequality">Bounded Differences Inequality</h2>
+<p><strong>Definition</strong> A function $f:\mathbb{R}^n \to \mathbb{R}$ satisfies the bounded difference inequality with parameters $L_1,\dots,L_n$ if for each $i = 1, \dots, n$,</p>
+
+<script type="math/tex; mode=display">\sup_{x_1, \dots, x_n, x_i'}|f(x_1, \dots, x_n) - f(x_1, \dots, x_i', \dots, x_n)| \leq L_i.</script>
+
+<p>Namely, the value of $f(x)$ can change by at most $L_i$ under arbitrary change over coordinate $i$ of $x$.</p>
+
+<p><strong>Theorem</strong> (Bounded differences inequality) Let $X_1, \dots, X_n$ be independent random variables. Let $f:\mathbb{R}^n \to \mathbb{R}$ be a function satisfying the bounded difference inequality with parameters $L_1,\dots,L_n$. Then for any $t&gt;0$, we have</p>
+
+<script type="math/tex; mode=display">\mathbb{P}(|f(X) - \mathbb{E}(f(X))| \geq t) \leq 2\exp\left(-\frac{2t^2}{\sum_{i = 1}^n L_i^2}\right),</script>
+
+<p>where $X = (X_1, \dots, X_n)$.</p>
+
+<p>Our next experiment is from this <a href="http://www.math.wisc.edu/~roch/grad-prob/gradprob-notes20.pdf">note</a>.</p>
+
+<p><strong>Experiment 3</strong> Suppose we throw $n$ balls into $m$ bins independently, uniformly at random. Let $X_j$ be the index of the bin in which ball $j$ lands and let $f(X_1, \dots, X_n)$ denote the number of empty bins. It is not hard to get</p>
+
+<script type="math/tex; mode=display">\mathbb{E}(X_1, \dots, X_n) = m\left(1 - \frac{1}{m}\right)^n,</script>
+
+<p>and $f$ satisfies the the bounded difference inequality with $L_1 = \dots = L_m = 1$. In the following experiment, we set $n = m = 10$.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="n">LinearAlgebra</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">10</span><span class="x">;</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="c"># number of trials</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="c"># distribution</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">DiscreteUniform</span><span class="x">(</span><span class="mi">1</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
+<span class="c"># function f</span>
+<span class="n">Im</span> <span class="o">=</span> <span class="kt">Matrix</span><span class="x">(</span><span class="n">I</span><span class="x">,</span> <span class="n">m</span><span class="x">,</span> <span class="n">m</span><span class="x">);</span> <span class="n">g</span><span class="x">(</span><span class="n">i</span><span class="x">)</span> <span class="o">=</span> <span class="n">Im</span><span class="x">[</span><span class="o">:</span><span class="x">,</span><span class="n">i</span><span class="x">]</span>
+<span class="k">function</span><span class="nf"> f</span><span class="x">(</span><span class="n">X</span><span class="x">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">mapreduce</span><span class="x">(</span><span class="n">g</span><span class="x">,</span> <span class="o">+</span><span class="x">,</span> <span class="n">X</span><span class="x">)</span>
+    <span class="k">return</span> <span class="n">count</span><span class="x">(</span><span class="n">j</span><span class="o">-&gt;</span><span class="n">j</span><span class="o">==</span><span class="mi">0</span><span class="x">,</span> <span class="n">z</span><span class="x">)</span>
+<span class="k">end</span>
+<span class="c"># Expectation</span>
+<span class="n">E</span> <span class="o">=</span> <span class="n">m</span><span class="o">*</span><span class="x">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">m</span><span class="x">)</span><span class="o">^</span><span class="n">n</span>
+<span class="c"># for-loop</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">N</span><span class="x">)</span>
+<span class="k">for</span> <span class="n">trial</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">rand</span><span class="x">(</span><span class="n">d</span><span class="x">,</span> <span class="mi">10</span><span class="x">)</span>
+    <span class="n">F</span><span class="x">[</span><span class="n">trial</span><span class="x">]</span> <span class="o">=</span> <span class="n">abs</span><span class="x">(</span><span class="n">f</span><span class="x">(</span><span class="n">X</span><span class="x">)</span><span class="o">-</span><span class="n">E</span><span class="x">)</span>
+<span class="k">end</span>
+<span class="c"># probabilities</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">:</span><span class="mf">0.01</span><span class="o">:</span><span class="mi">5</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">ts</span><span class="x">)</span>
+<span class="n">emperical</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">T</span><span class="x">);</span>
+<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="x">(</span><span class="n">ts</span><span class="x">)</span>
+    <span class="n">emperical</span><span class="x">[</span><span class="n">i</span><span class="x">]</span> <span class="o">=</span> <span class="n">count</span><span class="x">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">x</span><span class="o">&gt;=</span><span class="n">ts</span><span class="x">[</span><span class="n">i</span><span class="x">],</span> <span class="n">F</span><span class="x">)</span><span class="o">/</span><span class="n">N</span>
+<span class="k">end</span>
+<span class="n">bounded</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="x">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">ts</span><span class="o">.^</span><span class="mi">2</span><span class="o">/</span><span class="n">n</span><span class="x">)</span>
+<span class="n">plot</span><span class="x">(</span><span class="n">ts</span><span class="x">,</span> <span class="x">[</span><span class="n">bounded</span><span class="x">,</span> <span class="n">emperical</span><span class="x">],</span> 
+    <span class="n">labels</span><span class="o">=</span><span class="x">[</span><span class="s">"Bounded"</span> <span class="s">"Emperical"</span><span class="x">],</span> 
+    <span class="n">ylims</span> <span class="o">=</span> <span class="x">(</span><span class="mi">0</span><span class="x">,</span><span class="mi">1</span><span class="x">),</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"t"</span><span class="x">,</span> 
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"P(|f(X) - E(f(X))| &gt; t)"</span><span class="x">)</span>
+</code></pre></div></div>
+<p><img src="/assets/img/post5/Bounded.png" alt="Output4" /></p>
+
+<p>We have shown the concentration inequality for “bounded” functions. Can we show the similar probabilistic bound for a more general class of functions? The answer is Yes, when $X_i$’s are standard gaussian.</p>
+
+<h2 id="lipschitz-functions-of-gaussian-variables">Lipschitz functions of Gaussian variables</h2>
+<p><strong>Definition</strong> A function $f:\mathbb{R}^n \to \mathbb{R}$ is $L$-Lipschitz if</p>
+
+<script type="math/tex; mode=display">|f(x) - f(y)| \leq L\|x - y\|, \quad \forall x, y \in \mathbb{R}^n.</script>
+
+<p>The following result guarantees the concentration property of Lipschitz function of independent standard Gaussian random variables.</p>
+
+<p><strong>Theorem</strong> Let $X_1, \dots, X_n$ be i.i.d. standard Gaussian variables, and let $f:\mathbb{R}^n \to \mathbb{R}$ be $L$-Lipschitz. Then for all $t \geq 0$,</p>
+
+<script type="math/tex; mode=display">\mathbb{P}\left(|f(X) - \mathbb{E}(f(X))| \geq t\right) \leq 2\exp\left(-\frac{t^2}{2L^2}\right),</script>
+
+<p>where $X = (X_1, \dots, X_n)$.</p>
+
+<p>It is worth noting that this concentration inequality holds regardless of the dimension.</p>
+
+<p><strong>Experiment 4</strong> Let $X_1, \dots, X_n$ be standard Gaussian. Let $f = |\cdot|$, then $f$ is obviously $1$-Lipschitz and by elementary integration, we know that $\mathbb{E}(|X|) \approx \sqrt{n}$. In this experiment, we choose $n = 10, 100, 1000$.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># number of variables</span>
+<span class="n">n1</span> <span class="o">=</span> <span class="mi">10</span><span class="x">;</span> <span class="n">n2</span> <span class="o">=</span> <span class="mi">100</span><span class="x">;</span> <span class="n">n3</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="c"># expectations</span>
+<span class="n">E1</span> <span class="o">=</span> <span class="n">sqrt</span><span class="x">(</span><span class="n">n1</span><span class="x">);</span> <span class="n">E2</span> <span class="o">=</span> <span class="n">sqrt</span><span class="x">(</span><span class="n">n2</span><span class="x">);</span> <span class="n">E3</span> <span class="o">=</span> <span class="n">sqrt</span><span class="x">(</span><span class="n">n3</span><span class="x">)</span>
+<span class="c"># number of trials</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="c"># distribution</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">Normal</span><span class="x">(</span><span class="mi">0</span><span class="x">,</span> <span class="mi">1</span><span class="x">)</span>
+<span class="c"># for-loop</span>
+<span class="n">F1</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">N</span><span class="x">);</span> <span class="n">F2</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">N</span><span class="x">);</span> <span class="n">F3</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">N</span><span class="x">)</span>
+<span class="k">for</span> <span class="n">trial</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+    <span class="n">X1</span> <span class="o">=</span> <span class="n">rand</span><span class="x">(</span><span class="n">d</span><span class="x">,</span> <span class="n">n1</span><span class="x">);</span> <span class="n">X2</span> <span class="o">=</span> <span class="n">rand</span><span class="x">(</span><span class="n">d</span><span class="x">,</span> <span class="n">n2</span><span class="x">);</span> <span class="n">X3</span> <span class="o">=</span> <span class="n">rand</span><span class="x">(</span><span class="n">d</span><span class="x">,</span> <span class="n">n3</span><span class="x">)</span>
+    <span class="n">F1</span><span class="x">[</span><span class="n">trial</span><span class="x">]</span> <span class="o">=</span> <span class="n">abs</span><span class="x">(</span><span class="n">norm</span><span class="x">(</span><span class="n">X1</span><span class="x">)</span> <span class="o">-</span> <span class="n">E1</span><span class="x">)</span>
+    <span class="n">F2</span><span class="x">[</span><span class="n">trial</span><span class="x">]</span> <span class="o">=</span> <span class="n">abs</span><span class="x">(</span><span class="n">norm</span><span class="x">(</span><span class="n">X2</span><span class="x">)</span> <span class="o">-</span> <span class="n">E2</span><span class="x">)</span>
+    <span class="n">F3</span><span class="x">[</span><span class="n">trial</span><span class="x">]</span> <span class="o">=</span> <span class="n">abs</span><span class="x">(</span><span class="n">norm</span><span class="x">(</span><span class="n">X3</span><span class="x">)</span> <span class="o">-</span> <span class="n">E3</span><span class="x">)</span>
+<span class="k">end</span>
+<span class="c"># probabilities</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">:</span><span class="mf">0.01</span><span class="o">:</span><span class="mi">5</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">ts</span><span class="x">)</span>
+<span class="n">emperical1</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">T</span><span class="x">);</span> <span class="n">emperical2</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">T</span><span class="x">);</span> <span class="n">emperical3</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">T</span><span class="x">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="x">(</span><span class="n">ts</span><span class="x">)</span>
+    <span class="n">emperical1</span><span class="x">[</span><span class="n">i</span><span class="x">]</span> <span class="o">=</span> <span class="n">count</span><span class="x">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">x</span><span class="o">&gt;=</span><span class="n">ts</span><span class="x">[</span><span class="n">i</span><span class="x">],</span> <span class="n">F1</span><span class="x">)</span><span class="o">/</span><span class="n">N</span>
+    <span class="n">emperical2</span><span class="x">[</span><span class="n">i</span><span class="x">]</span> <span class="o">=</span> <span class="n">count</span><span class="x">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">x</span><span class="o">&gt;=</span><span class="n">ts</span><span class="x">[</span><span class="n">i</span><span class="x">],</span> <span class="n">F2</span><span class="x">)</span><span class="o">/</span><span class="n">N</span>
+    <span class="n">emperical3</span><span class="x">[</span><span class="n">i</span><span class="x">]</span> <span class="o">=</span> <span class="n">count</span><span class="x">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">x</span><span class="o">&gt;=</span><span class="n">ts</span><span class="x">[</span><span class="n">i</span><span class="x">],</span> <span class="n">F3</span><span class="x">)</span><span class="o">/</span><span class="n">N</span>
+<span class="k">end</span>
+<span class="n">bounded</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="x">(</span><span class="o">-</span><span class="n">ts</span><span class="o">.^</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="x">)</span>
+<span class="n">plot</span><span class="x">(</span><span class="n">ts</span><span class="x">,</span> <span class="x">[</span><span class="n">bounded</span><span class="x">,</span> <span class="n">emperical1</span><span class="x">,</span> <span class="n">emperical2</span><span class="x">,</span> <span class="n">emperical3</span><span class="x">],</span> 
+    <span class="n">labels</span><span class="o">=</span><span class="x">[</span><span class="s">"Bounded"</span> <span class="s">"Emperical_n=10"</span> <span class="s">"Emperical_n=100"</span> <span class="s">"Emperical_n=100"</span><span class="x">],</span> 
+    <span class="n">ylims</span> <span class="o">=</span> <span class="x">(</span><span class="mi">0</span><span class="x">,</span><span class="mi">1</span><span class="x">),</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"t"</span><span class="x">,</span> 
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"P(|f(X) - E(f(X))| &gt; t)"</span><span class="x">)</span>
+</code></pre></div></div>
+<p><img src="/assets/img/post5/Gaussian.png" alt="Output5" /></p>
+
+<p>Finally, all the concentration inequalities we have seen depend on the independence between $X_i$’s. Can we relax this condition? The answer is Yes, when they are “enough inpendent”. Here we show a particular example of concentration on the sphere. A more general discussion over this topic can be found in the Chapter 5, Concentration without independence, of <sup id="fnref:1:1"><a href="#fn:1" class="footnote">1</a></sup>.</p>
+
+<h2 id="concentration-on-the-unit-sphere">Concentration on the unit sphere</h2>
+<p><strong>Theorem</strong> Let $X$ be a uniform random variable on the unit sphere $\mathbb{S}^{n-1}$ and let $f:\mathbb{S}^{n-1} \to \mathbb{R}$ be $L$-Lipschitz. Then for all $t\geq0$,</p>
+
+<script type="math/tex; mode=display">\mathbb{P}\left(|f(X) - \mathbb{E}(f(X))|\right) \leq 2\exp(-\frac{(n-1)t^2}{2L^2}).</script>
+
+<p><strong>Experiment 4</strong> Let $X$ be standard Gaussian in $\mathbb{R}^n$ and let $Y = \frac{X}{|X|}$. Then it is well-known that $Y$ is uniformly distributed on $\mathbb{S}^{n-1}$. We define $f(y) = \langle a, y\rangle$, where $a \in \mathbb{S}^{n-1}$ is some fixed vector. Then by simple computation, we can get that $f$ is 1-Lipschitz and $\mathbb{E}(f(Y)) = 0$. In the experiment, we choose $n = 10$.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="c"># number of trials</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="c"># distribution</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">Normal</span><span class="x">(</span><span class="mi">0</span><span class="x">,</span> <span class="mi">1</span><span class="x">)</span>
+<span class="c"># function</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">randn</span><span class="x">(</span><span class="n">n</span><span class="x">);</span> <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">/</span><span class="n">norm</span><span class="x">(</span><span class="n">a</span><span class="x">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">dot</span><span class="x">(</span><span class="n">a</span><span class="x">,</span> <span class="n">y</span><span class="x">)</span>
+<span class="c"># for-loop</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">N</span><span class="x">)</span>
+<span class="k">for</span> <span class="n">trial</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">rand</span><span class="x">(</span><span class="n">d</span><span class="x">,</span> <span class="n">n</span><span class="x">);</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">X</span><span class="o">/</span><span class="n">norm</span><span class="x">(</span><span class="n">X</span><span class="x">)</span>
+    <span class="n">F</span><span class="x">[</span><span class="n">trial</span><span class="x">]</span> <span class="o">=</span> <span class="n">abs</span><span class="x">(</span><span class="n">f</span><span class="x">(</span><span class="n">Y</span><span class="x">))</span>
+<span class="k">end</span>
+<span class="c"># probabilities</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">:</span><span class="mf">0.01</span><span class="o">:</span><span class="mi">2</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">length</span><span class="x">(</span><span class="n">ts</span><span class="x">)</span>
+<span class="n">emperical</span> <span class="o">=</span> <span class="n">zeros</span><span class="x">(</span><span class="n">T</span><span class="x">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="x">(</span><span class="n">ts</span><span class="x">)</span>
+    <span class="n">emperical</span><span class="x">[</span><span class="n">i</span><span class="x">]</span> <span class="o">=</span> <span class="n">count</span><span class="x">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">x</span><span class="o">&gt;=</span><span class="n">ts</span><span class="x">[</span><span class="n">i</span><span class="x">],</span> <span class="n">F</span><span class="x">)</span><span class="o">/</span><span class="n">N</span>
+<span class="k">end</span>
+<span class="n">bounded</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">exp</span><span class="o">.</span><span class="x">(</span><span class="o">-</span><span class="x">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="x">)</span><span class="o">*</span><span class="n">ts</span><span class="o">.^</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="x">)</span>
+<span class="n">plot</span><span class="x">(</span><span class="n">ts</span><span class="x">,</span> <span class="x">[</span><span class="n">bounded</span><span class="x">,</span> <span class="n">emperical</span><span class="x">],</span> 
+    <span class="n">labels</span><span class="o">=</span><span class="x">[</span><span class="s">"Bounded"</span> <span class="s">"Emperical"</span><span class="x">],</span> 
+    <span class="n">ylims</span> <span class="o">=</span> <span class="x">(</span><span class="mi">0</span><span class="x">,</span><span class="mi">1</span><span class="x">),</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"t"</span><span class="x">,</span> 
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"P(|f(X) - E(f(X))| &gt; t)"</span><span class="x">)</span>
+</code></pre></div></div>
+<p><img src="/assets/img/post5/Sphere.png" alt="Output5" /></p>
+
+<h3 id="reference">Reference</h3>
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Vershynin, Roman. High-dimensional probability: An introduction with applications in data science. Vol. 47. Cambridge university press, 2018. <a href="#fnref:1" class="reversefootnote">&#8617;</a> <a href="#fnref:1:1" class="reversefootnote">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:2">
+      <p>Wainwright, Martin J. High-dimensional statistics: A non-asymptotic viewpoint. Vol. 48. Cambridge University Press, 2019. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </article>
+
+  
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname  = 'zhenanf';
+      var disqus_identifier = '/blog/2020/concentration-inequalities';
+      var disqus_title      = "Concentration Inequalities";
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <footer>
+
+  <div class="wrapper">
+    &copy; Copyright 2020 Zhenan Fan.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+
+    
+  </div>
+
+</footer>
+
+
+
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="/assets/js/common.js"></script>
+
+
+<!-- Load KaTeX -->
+<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js"></script>
+<script src="/assets/js/katex.js"></script> -->
+<script type="text/javascript" async
+   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+          inlineMath: [ ['$', '$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'] ],
+          processEscapes: true
+        }
+      });
+</script>
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="/assets/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/assets/css/academicons.min.css">
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-154621803-2', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+
+</html>
